@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion du profil{% endblock %}
+
+{% block body %}
+
+    <div>
+        <h1>Mon profil</h1>
+    </div>
+
+    <div class="image-participant">
+        <div>
+            <img src="{{ asset("img/photo3.png") }}" alt="{{ participant.pseudo }}">
+        </div>
+    </div>
+    <div class="participant-infos">
+        {{ form_start(participantForm) }}
+        <input type="hidden" name="id"
+               value="{{ participant.id }}"
+        >
+
+        {{ form_widget(participantForm) }}
+
+        <button type="submit" class="btn">Enregistrer</button>
+        <button type="reset" class="btn">Annuler</button>
+        {{ form_end(participantForm) }}
+    </div>
+
+{% endblock %}

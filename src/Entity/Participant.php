@@ -6,45 +6,67 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Assert\NotBlank(message: "L'email doit être renseigné.")]
+    #[Assert\Email(message:"L'email {{ value }} n'est pas un email valide.")]
+    #[Assert\Length(max : 180,
+        maxMessage: "L'email ne peut excéder 180 caractères")]
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private $email;
 
-    #[ORM\Column(type: 'json')]
-    private $roles = [];
 
+    #[Assert\NotBlank(message: "Le mot de passe doit être renseigné.")]
+    //TODO : CF Philippe
+   // #[Assert\Type(type: ['alnum'])]
+    #[Assert\Length(min : 8,
+        minMessage: "Le mot de passe doit comporté au minimum 8 caractères alphanumériques")]
     #[ORM\Column(type: 'string')]
     private $password;
 
+    #[Assert\NotBlank(message: "Le nom doit être renseigné.")]
+    #[Assert\Length(min: 2, max: 50,
+        minMessage: "Le nom doit avoir au moins 2 caractères",
+        maxMessage: "Le nom ne peut excéder 50 caractères")]
     #[ORM\Column(type: 'string', length: 50)]
     private $nom;
 
+    #[Assert\NotBlank(message: "Le prénom doit être renseigné.")]
+    #[Assert\Length(min: 2, max: 50,
+        minMessage: "Le prénom doit avoir au moins 2 caractères",
+        maxMessage: "Le prénom ne peut excéder 50 caractères")]
     #[ORM\Column(type: 'string', length: 50)]
     private $prenom;
 
+    #[Assert\NotBlank(message: "Le téléphone doit être renseigné.")]
+    #[Assert\Length(max: 10,
+        maxMessage: "Le téléphone ne peut excéder 10 caractères")]
     #[ORM\Column(type: 'string', length: 10)]
     private $telephone;
 
-    #[ORM\Column(type: 'string', length: 150)]
-    private $mail;
 
     #[ORM\Column(type: 'boolean')]
     private $administrateur;
 
+
     #[ORM\Column(type: 'boolean')]
     private $actif;
 
-    #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank(message: "Le pseudo doit être renseigné.")]
+    #[Assert\Length(max: 50,
+        maxMessage: "Le pseudo ne peut excéder 50 caractères")]
+    #[ORM\Column(type: 'string', length: 50, unique: true)]
     private $pseudo;
 
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
@@ -95,18 +117,10 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
     }
 
     /**
@@ -169,18 +183,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    public function setMail(string $mail): self
-    {
-        $this->mail = $mail;
-
-        return $this;
-    }
-
     public function getAdministrateur(): ?bool
     {
         return $this->administrateur;
@@ -225,18 +227,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->sorties;
     }
 
-    public function addSorty(Sortie $sorty): self
+    public function addSortie(Sortie $sortie): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties[] = $sortie;
         }
 
         return $this;
     }
 
-    public function removeSorty(Sortie $sorty): self
+    public function removeSortie(Sortie $sortie): self
     {
-        $this->sorties->removeElement($sorty);
+        $this->sorties->removeElement($sortie);
 
         return $this;
     }
