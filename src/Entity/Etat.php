@@ -4,38 +4,71 @@ namespace App\Entity;
 
 use App\Repository\EtatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: EtatRepository::class)]
+/**
+ * @ORM\Entity(repositoryClass=EtatRepository::class)
+ */
 class Etat
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
+     */
     private $id;
 
-    #[ORM\Column(type: 'string', length: 50)]
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=50)
+     *
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message = "Veuillez indiquer l'intitulé de l'état.")
+     * @Assert\Length(
+     *          max = 50,
+     *          maxMessage = "L'intitulé de l'état est trop long (50 max)."
+     *      )
+     */
     private $libelle;
 
-    #[ORM\OneToMany(mappedBy: 'etat', targetEntity: Sortie::class)]
+    /**
+     * @var Sortie[]
+     *
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="etat")
+     */
     private $sorties;
 
+    /**
+     * Etat constructor.
+     */
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    /**
+     * @return mixed
+     */
+    public function getId(): mixed
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
+    /**
+     * @param string $libelle
+     * @return $this
+     */
     public function setLibelle(string $libelle): self
     {
         $this->libelle = $libelle;
@@ -44,29 +77,37 @@ class Etat
     }
 
     /**
-     * @return Collection<int, Sortie>
+     * @return Sortie[]
      */
-    public function getSorties(): Collection
+    public function getSorties()
     {
         return $this->sorties;
     }
 
-    public function addSorty(Sortie $sorty): self
+    /**
+     * @param Sortie $sortie
+     * @return $this
+     */
+    public function addSortie(Sortie $sortie): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
-            $sorty->setEtat($this);
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties[] = $sortie;
+            $sortie->setEtat($this);
         }
 
         return $this;
     }
 
-    public function removeSorty(Sortie $sorty): self
+    /**
+     * @param Sortie $sortie
+     * @return $this
+     */
+    public function removeSortie(Sortie $sortie): self
     {
-        if ($this->sorties->removeElement($sorty)) {
+        if ($this->sorties->removeElement($sortie)) {
             // set the owning side to null (unless already changed)
-            if ($sorty->getEtat() === $this) {
-                $sorty->setEtat(null);
+            if ($sortie->getEtat() === $this) {
+                $sortie->setEtat(null);
             }
         }
 
