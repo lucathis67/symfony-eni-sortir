@@ -9,12 +9,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: ParticipantRepository::class)]
+/**
+ * @ORM\Entity(repositoryClass=ParticipantRepository::class)
+ */
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
+     */
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
@@ -63,7 +68,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sortiesOrganisees = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): mixed
     {
         return $this->id;
     }
