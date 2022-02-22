@@ -7,13 +7,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: SortieRepository::class)]
+/**
+ * @ORM\Entity(repositoryClass=SortieRepository::class)
+ */
 class Sortie
 {
     /**
-     * @ORM\Column(type="string")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private $id;
 
@@ -25,7 +28,7 @@ class Sortie
      * @Assert\Type("string")
      * @Assert\NotBlank(message = "Veuillez indiquer le nom de la sortie.")
      * @Assert\Length(
-     *          max = 50
+     *          max = 50,
      *          maxMessage = "Le nom de la sortie est trop long (50 max)."
      *      )
      */
@@ -91,7 +94,7 @@ class Sortie
      * @var Participant
      *
      * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sortiesOrganisees")
-     * @ORM\JoinColumn(nullable: false)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $organisateur;
 
@@ -99,7 +102,7 @@ class Sortie
      * @var Campus
      *
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sorties")
-     * @ORM\JoinColumn(nullable: false)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $campus;
 
@@ -107,7 +110,7 @@ class Sortie
      * @var Etat
      *
      * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sorties")
-     * @ORM\JoinColumn(nullable: false)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $etat;
 
@@ -115,7 +118,7 @@ class Sortie
      * @var Lieu
      *
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
-     * @ORM\JoinColumn(nullable: false)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $lieu;
 
@@ -128,9 +131,9 @@ class Sortie
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getId(): ?string
+    public function getId(): mixed
     {
         return $this->id;
     }
@@ -359,5 +362,5 @@ class Sortie
 
         return $this;
     }
-    
+
 }

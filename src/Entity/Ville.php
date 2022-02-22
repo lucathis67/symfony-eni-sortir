@@ -13,9 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Ville
 {
     /**
-     * @ORM\Column(type="string")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private $id;
 
@@ -27,7 +28,7 @@ class Ville
      * @Assert\Type("string")
      * @Assert\NotBlank(message = "Veuillez indiquer le nom de la ville.")
      * @Assert\Length(
-     *          max = 150
+     *          max = 150,
      *          maxMessage = "Le nom de la ville est trop long (150 max)."
      *      )
      */
@@ -42,7 +43,7 @@ class Ville
      * @Assert\NotBlank(message = "Veuillez entrer votre code postal.")
      * @Assert\Regex("/[0-9]{5}/", message="Code postal invalide")
      * @Assert\Length(
-     *          max = 5
+     *          max = 5,
      *          maxMessage = "Veuillez entrer un code postal à 5 chiffres."
      *      )
      */
@@ -64,9 +65,9 @@ class Ville
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getId(): ?string
+    public function getId(): mixed
     {
         return $this->id;
     }

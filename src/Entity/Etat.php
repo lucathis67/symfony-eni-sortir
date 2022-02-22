@@ -7,13 +7,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: EtatRepository::class)]
+/**
+ * @ORM\Entity(repositoryClass=EtatRepository::class)
+ */
 class Etat
 {
     /**
-     * @ORM\Column(type="string")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private $id;
 
@@ -25,7 +28,7 @@ class Etat
      * @Assert\Type("string")
      * @Assert\NotBlank(message = "Veuillez indiquer l'intitulé de l'état.")
      * @Assert\Length(
-     *          max = 50
+     *          max = 50,
      *          maxMessage = "L'intitulé de l'état est trop long (50 max)."
      *      )
      */
@@ -47,9 +50,9 @@ class Etat
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getId(): ?string
+    public function getId(): mixed
     {
         return $this->id;
     }

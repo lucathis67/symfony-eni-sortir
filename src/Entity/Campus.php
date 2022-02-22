@@ -7,13 +7,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: CampusRepository::class)]
+/**
+ * @ORM\Entity(repositoryClass=CampusRepository::class)
+ */
 class Campus
 {
     /**
-     * @ORM\Column(type="string")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
      */
     private $id;
 
@@ -25,7 +28,7 @@ class Campus
      * @Assert\Type("string")
      * @Assert\NotBlank(message = "Veuillez indiquer le nom du campus.")
      * @Assert\Length(
-     *          max = 50
+     *          max = 50,
      *          maxMessage = "Le nom du campus est trop long (50 max)."
      *      )
      */
@@ -55,9 +58,9 @@ class Campus
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getId(): ?string
+    public function getId(): mixed
     {
         return $this->id;
     }
