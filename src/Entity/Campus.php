@@ -4,42 +4,79 @@ namespace App\Entity;
 
 use App\Repository\CampusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: CampusRepository::class)]
+/**
+ * @ORM\Entity(repositoryClass=CampusRepository::class)
+ */
 class Campus
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
+     */
     private $id;
 
-    #[ORM\Column(type: 'string', length: 50)]
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=50)
+     *
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message = "Veuillez indiquer le nom du campus.")
+     * @Assert\Length(
+     *          max = 50,
+     *          maxMessage = "Le nom du campus est trop long (50 max)."
+     *      )
+     */
     private $nom;
 
-    #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Participant::class)]
+    /**
+     * @var Participant[]
+     *
+     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="campus")
+     */
     private $participants;
 
-    #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Sortie::class)]
+    /**
+     * @var Sortie[]
+     *
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="campus")
+     */
     private $sorties;
 
+    /**
+     * Campus constructor.
+     */
     public function __construct()
     {
         $this->participants = new ArrayCollection();
         $this->sorties = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    /**
+     * @return mixed
+     */
+    public function getId(): mixed
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getNom(): ?string
     {
         return $this->nom;
     }
 
+    /**
+     * @param string $nom
+     * @return $this
+     */
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
@@ -48,13 +85,17 @@ class Campus
     }
 
     /**
-     * @return Collection<int, Participant>
+     * @return Participant[]
      */
-    public function getParticipants(): Collection
+    public function getParticipants()
     {
         return $this->participants;
     }
 
+    /**
+     * @param Participant $participant
+     * @return $this
+     */
     public function addParticipant(Participant $participant): self
     {
         if (!$this->participants->contains($participant)) {
@@ -65,6 +106,10 @@ class Campus
         return $this;
     }
 
+    /**
+     * @param Participant $participant
+     * @return $this
+     */
     public function removeParticipant(Participant $participant): self
     {
         if ($this->participants->removeElement($participant)) {
@@ -78,29 +123,37 @@ class Campus
     }
 
     /**
-     * @return Collection<int, Sortie>
+     * @return Sortie[]
      */
-    public function getSorties(): Collection
+    public function getSorties(): Sortie
     {
         return $this->sorties;
     }
 
-    public function addSorty(Sortie $sorty): self
+    /**
+     * @param Sortie $sortie
+     * @return $this
+     */
+    public function addSortie(Sortie $sortie): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
-            $sorty->setCampus($this);
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties[] = $sortie;
+            $sortie->setCampus($this);
         }
 
         return $this;
     }
 
-    public function removeSorty(Sortie $sorty): self
+    /**
+     * @param Sortie $sortie
+     * @return $this
+     */
+    public function removeSortie(Sortie $sortie): self
     {
-        if ($this->sorties->removeElement($sorty)) {
+        if ($this->sorties->removeElement($sortie)) {
             // set the owning side to null (unless already changed)
-            if ($sorty->getCampus() === $this) {
-                $sorty->setCampus(null);
+            if ($sortie->getCampus() === $this) {
+                $sortie->setCampus(null);
             }
         }
 
