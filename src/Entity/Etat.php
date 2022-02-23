@@ -7,38 +7,23 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=EtatRepository::class)
- */
+
+#[ORM\Entity(repositoryClass: EtatRepository::class)]
 class Etat
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator( class: "doctrine.uuid_generator")]
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=50)
-     *
-     * @Assert\Type("string")
-     * @Assert\NotBlank(message = "Veuillez indiquer l'intitulé de l'état.")
-     * @Assert\Length(
-     *          max = 50,
-     *          maxMessage = "L'intitulé de l'état est trop long (50 max)."
-     *      )
-     */
+    #[ORM\Column(type: "string", length: 50)]
+    #[Assert\Type("string")]
+    #[Assert\NotBlank(message: "veuillez indiquer l'état")]
+    #[Assert\Length(max: 50, maxMessage: "l'intitulé de l'état est trop long")]
     private $libelle;
 
-    /**
-     * @var Sortie[]
-     *
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="etat")
-     */
+    #[ORM\OneToMany(mappedBy: "etat", targetEntity: Sortie::class)]
     private $sorties;
 
     /**

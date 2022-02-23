@@ -26,7 +26,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private $email;
 
-
     #[Assert\NotBlank(message: "Le mot de passe doit être renseigné.")]
     //TODO : CF Philippe
    // #[Assert\Type(type: ['alnum'])]
@@ -55,10 +54,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 10)]
     private $telephone;
 
-
     #[ORM\Column(type: 'boolean')]
     private $administrateur;
-
 
     #[ORM\Column(type: 'boolean')]
     private $actif;

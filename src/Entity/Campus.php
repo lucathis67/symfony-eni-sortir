@@ -7,45 +7,27 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=CampusRepository::class)
- */
+
+
+#[ORM\Entity(repositoryClass: CampusRepository::class)]
 class Campus
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: "doctrine.uuid_generator")]
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=50)
-     *
-     * @Assert\Type("string")
-     * @Assert\NotBlank(message = "Veuillez indiquer le nom du campus.")
-     * @Assert\Length(
-     *          max = 50,
-     *          maxMessage = "Le nom du campus est trop long (50 max)."
-     *      )
-     */
+    #[ORM\Column(type: "string")]
+    #[Assert\Type("string")]
+    #[Assert\NotBlank(message: "veuillez indiquer un nom de campus")]
+    #[Assert\Length(max: 50, maxMessage: "maximum 50 caractères")]
     private $nom;
 
-    /**
-     * @var Participant[]
-     *
-     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="campus")
-     */
+    #[ORM\OneToMany(mappedBy: "campus", targetEntity: Participant::class)]
     private $participants;
 
-    /**
-     * @var Sortie[]
-     *
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="campus")
-     */
+    #[ORM\OneToMany(mappedBy: "campus", targetEntity: Sortie::class)]
     private $sorties;
 
     /**

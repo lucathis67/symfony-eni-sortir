@@ -7,78 +7,41 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=LieuRepository::class)
- */
+
+#[ORM\Entity(repositoryClass: LieuRepository::class)]
 class Lieu
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: "doctrine.uuid_generator")]
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=150)
-     *
-     * @Assert\Type("string")
-     * @Assert\NotBlank(message = "Veuillez indiquer le nom de la lieu.")
-     * @Assert\Length(
-     *          max = 150,
-     *          maxMessage = "Le nom du lieu est trop long (150 max)."
-     *      )
-     */
+    #[ORM\Column(type: "string", length: 150)]
+    #[Assert\Type("string")]
+    #[Assert\NotBlank(message: "Veuillez indiquer un nom du lieu")]
+    #[Assert\Length(max: 150, maxMessage: "le nom du lieu ne doit pas excéder 150 caractères")]
     private $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Assert\Type("string")
-     * @Assert\NotBlank(message = "Veuillez indiquer la rue.")
-     * @Assert\Length(
-     *          max = 255,
-     *          maxMessage = "Le nom du lieu est trop long (255 max)."
-     *      )
-     */
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\Type("string")]
+    #[Assert\NotBlank(message: "Veuillez indiquer un nom de rue")]
+    #[Assert\Length(max: 255, maxMessage: "le nom de rue ne doit pas excéder 255 caractères")]
     private $rue;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(type = "float")
-     *
-     * @Assert\Type(type = "float", message = "La valeur n'est pas valide")
-     */
+    #[ORM\Column(type: "float")]
+    #[Assert\Type(type: "float", message: "valeur de type invalide")]
     private $latitude;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(type = "float")
-     *
-     * @Assert\Type(type = "float", message = "La valeur n'est pas valide")
-     */
+    #[ORM\Column(type: "float")]
+    #[Assert\Type(type: "float", message: "valeur de type invalide")]
     private $longitude;
 
-    /**
-     * @var Sortie[]
-     *
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="lieu")
-     */
+    #[ORM\OneToMany(mappedBy: "lieu", targetEntity: Sortie::class)]
     private $sorties;
 
-    /**
-     * @var Ville
-     *
-     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieux")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Ville::class, inversedBy: "lieux")]
+    #[ORM\JoinColumn(nullable: false)]
     private $ville;
 
     /**

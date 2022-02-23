@@ -7,119 +7,63 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=SortieRepository::class)
- */
+
+#[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="doctrine.uuid_generator")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: "doctrine.uuid_generator")]
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=50)
-     *
-     * @Assert\Type("string")
-     * @Assert\NotBlank(message = "Veuillez indiquer le nom de la sortie.")
-     * @Assert\Length(
-     *          max = 50,
-     *          maxMessage = "Le nom de la sortie est trop long (50 max)."
-     *      )
-     */
+    #[ORM\Column(type: "string", length: 50)]
+    #[Assert\Type("string")]
+    #[Assert\NotBlank(message: "veuillez renseigner un nom de sortie")]
+    #[Assert\Length(max: 50, maxMessage: "maximum 50 caractères")]
     private $nom;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type(type = "\DateTime", message = "La valeur n'est pas valide")
-     * @Assert\NotBlank(message = "Veuillez entrer la date de la sortie.")
-     * @Assert\GreaterThan(value = "today", message = "Veuillez entrer une date dans le futur.")
-     */
+    #[ORM\Column(type: "string", length: 50)]
+    #[Assert\Type(type: "\DateTime", message: "La valeur est de type invalide")]
+    #[Assert\NotBlank(message: "veuillez renseigner la date de la sortie")]
+    #[Assert\GreaterThan(value: "today", message: "la date renseignée est passée")]
     private $dateHeureDebut;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(type = "integer")
-     *
-     * @Assert\Type(type = "integer", message = "La valeur n'est pas valide")
-     */
+    #[ORM\Column(type: "integer")]
+    #[Assert\Type(type: "integer", message: "type de valeur invalide")]
     private $duree;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     *
-     * @Assert\Type(type = "\DateTime", message = "La valeur n'est pas valide")
-     * @Assert\NotBlank(message = "Veuillez entrer la date limite d'inscription.")
-     * @Assert\GreaterThan(value = "today", message = "Veuillez entrer une date dans le futur.")
-     * @Assert\LessThan(propertyPath = "dateHeureDebut", message = "Veuillez entrer une date antérieur à celle de la sortie.")
-     */
+    #[ORM\Column(type: "datetime")]
+    #[Assert\Type(type: "\DateTime", message: "type de valeur invalide")]
+    #[Assert\NotBlank(message: "veuillez renseigner la date limite d'inscription")]
+    #[Assert\GreaterThan(value: "today", message: "la date renseignée est passée")]
+    #[Assert\LessThan(propertyPath: "dateHeureDebut", message: "veuillez renseigner une date antérieure à celle de la sortie")]
     private $dateLimiteInscription;
 
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     *
-     * @Assert\Type(type = "integer", message = "La valeur n'est pas valide")
-     */
+    #[ORM\Column(type: "integer")]
+    #[Assert\Type(type: "integer", message: "la valeur est de type valide")]
     private $nbInscriptionsMax;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=150, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 150, nullable: true)]
     private $infosSortie;
 
-    /**
-     * @var Participant[]
-     *
-     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="sorties")
-     */
+    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: "sorties")]
     private $participants;
 
-    /**
-     * @var Participant
-     *
-     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sortiesOrganisees")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Participant::class, inversedBy: "sortiesOrganisees")]
+    #[ORM\JoinColumn(nullable: false)]
     private $organisateur;
 
-    /**
-     * @var Campus
-     *
-     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sorties")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: "sorties")]
+    #[ORM\JoinColumn(nullable: false)]
     private $campus;
 
-    /**
-     * @var Etat
-     *
-     * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sorties")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Etat::class, inversedBy: "sorties")]
+    #[ORM\JoinColumn(nullable: false)]
     private $etat;
 
-    /**
-     * @var Lieu
-     *
-     * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: "sorties")]
+    #[ORM\JoinColumn(nullable: false)]
     private $lieu;
 
     /**
