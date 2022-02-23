@@ -15,8 +15,8 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class ParticipantController extends AbstractController
 {
-    #[Route('/profilParticipant/{id}', name: 'participant_gestionProfil', requirements: ["id" => "\d+"])]
-    public function gestionProfil(int                         $id,
+    #[Route('/modifierProfil/{id}', name: 'participant_modifier', requirements: ["id" => "\d+"])]
+    public function modifier(int                         $id,
                                   ParticipantRepository       $participantRepository,
                                   Request                     $request,
                                   UserPasswordHasherInterface $userPasswordHasher,
@@ -53,9 +53,8 @@ class ParticipantController extends AbstractController
                 'participantForm' => $form->createView(),
                 "participant" => $participant,
             ]);
-
-           // return $this->redirectToRoute("participant_gestionProfil", ['id' => $participant->getId()]);
         } else {
+
             $this->addFlash('warning', "Utilisateur inconnu !!");
             //TODO inserer le route de la page de connexion ou de l'accueil
             return $this->redirectToRoute('app_login');
