@@ -4,8 +4,69 @@
 
 {% block body %}
 
-    <table>
-        <thead>
+    <div class="sorties-header">
+        <div>
+            Date du jour: {{ 'now'|format_date('full', locale='fr') }}
+        </div>
+        {% if app.user %}
+            <div>Participant: {{ app.user.prenom }} {{ app.user.nom }}.</div>
+        {% endif %}
+    </div>
+
+    <div class="sorties-filter">
+        <h3>Flitrer les sorties</h3>
+
+        <div>
+            {{ form_start(sortieForm) }}
+            {{ form_widget(sortieForm) }}
+                <button type="submit">Rechercher</button>
+            {{ form_end(sortieForm) }}
+        </div>
+
+
+        <form method="post" style="display: none">
+
+            <label for="campus">Campus</label>
+            <select name="campus" id="campus">
+                {% for campus in campuses %}
+                    <option value="{{ campus.nom }}">{{ campus.nom }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="keyword">Le nom de la sortie contient: </label>
+            <input id="keyword" name="keyword" type="search">
+
+            <div>
+                <label for="min-date">Entre: </label>
+                <input id="min-date" name="minDate" type="date">
+
+                <label for="max-date">et</label>
+                <input id="max-date" name="maxDate" type="date">
+            </div>
+
+            <div>
+                <label for="i-organise">Sorties dont je suis l'organisateur/trice</label>
+                <input id="i-organise" name="organised" type="checkbox">
+
+                <label for="i-subscribed">sorties auxquelles je suis inscrit/e</label>
+                <input id="i-subscribed" name="subscribed" type="checkbox">
+
+                <label for="not-subscribed">Sorties auxquelles je ne suis pas inscrit/e</label>
+                <input id="not-subscribed" name="unsubscribed" type="checkbox">
+
+                <label for="past-sorties">Sorties passées</label>
+                <input id="past-sorties" name="past" type="checkbox">
+            </div>
+
+            <button type="submit">Rechercher</button>
+        </form>
+
+
+    </div>
+
+    <div class="sorties-list">
+        <table>
+            <thead>
             <tr>
                 <th>Nom de la sortie</th>
                 <th>Date de la sortie</th>
@@ -16,13 +77,13 @@
                 <th>Organisateur</th>
                 <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {% for sortie in sorties %}
                 <tr>
                     <td>{{ sortie.nom }}</td>
-                    <td>{{ sortie.dateHeureDebut }}</td>
-                    <td>{{ sortie.dateLimiteInscription }}</td>
+                    <td>{{ sortie.dateHeureDebut | format_datetime('full', 'short', locale='fr') }}</td>
+                    <td>{{ sortie.dateLimiteInscription | format_datetime('full', 'short', locale='fr') }}</td>
                     <td>{{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
                     <td></td>
@@ -30,7 +91,10 @@
                     <td></td>
                 </tr>
             {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
+
+    <a href="#">Créer une sortie</a>
 
 {% endblock %}

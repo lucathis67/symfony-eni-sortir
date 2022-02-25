@@ -88,6 +88,30 @@ select {
 
 .flash-success {background-color: lawngreen}
 
+/*
+========================
+PAGE LISTANT LES SORTIES
+ */
 
+table {
+    padding: 1em;
+}
+
+thead tr {
+    background-color: grey;
+}
+
+tbody tr:nth-of-type(even) {
+    background-color: lightgrey;
+}
+
+tbody tr:hover {
+    color: red;
+}
+
+th, td {
+    padding: 0.5em;
+    border: 1px solid black;
+}
 
 

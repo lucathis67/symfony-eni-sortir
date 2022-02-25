@@ -23,7 +23,7 @@ class Sortie
     #[Assert\Length(max: 50, maxMessage: "maximum 50 caractères")]
     private $nom;
 
-    #[ORM\Column(type: "string", length: 50)]
+    #[ORM\Column(type: "datetime", length: 50)]
     #[Assert\Type(type: "\DateTime", message: "La valeur est de type invalide")]
     #[Assert\NotBlank(message: "veuillez renseigner la date de la sortie")]
     #[Assert\GreaterThan(value: "today", message: "la date renseignée est passée")]
@@ -197,7 +197,7 @@ class Sortie
     }
 
     /**
-     * @return Participant[]
+     * @return ArrayCollection
      */
     public function getParticipants()
     {
@@ -212,7 +212,7 @@ class Sortie
     {
         if (!$this->participants->contains($participant)) {
             $this->participants[] = $participant;
-            $participant->addSorty($this);
+            $participant->addSortie($this);
         }
 
         return $this;
@@ -225,7 +225,7 @@ class Sortie
     public function removeParticipant(Participant $participant): self
     {
         if ($this->participants->removeElement($participant)) {
-            $participant->removeSorty($this);
+            $participant->removeSortie($this);
         }
 
         return $this;
