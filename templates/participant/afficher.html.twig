@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ participant.pseudo }}</h1>
+    <div class="image-participant">
+        <div>
+            <img src="{{ asset("img/photo3.png") }}" alt="{{ participant.pseudo }}">
+        </div>
+    </div>
+    <div>
+        <label for="prenom">Prénom : {{ participant.prenom }}</label>
+    </div>
+    <div>
+        <label for="nom">Nom : {{ participant.nom }}</label>
+    </div>
+    <div>
+        <label for="telephone">Téléphone : {{ participant.telephone }}</label>
+    </div>
+    <div>
+        <label for="">Email : {{ participant.email }}</label>
+    </div>
+    <div>
+        <label for="">Campus : {{ participant.campus.nom }}</label>
+    </div>
+
+    <a href="{{ path("participant_modifier") }}">
+        <button type="button" class="btn">Modifier</button>
+    </a>
+
+    <button type="button" class="btn">Retour</button>
+
+
+{% endblock %}
+
+{% block title %}
+    {{ participant.pseudo }}
+{% endblock %}
+

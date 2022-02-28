@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport"
@@ -14,6 +14,8 @@
         {% block extrastyles %}{% endblock %}
         {% block script %}{% endblock %}
     </head>
+
+
     <div class="container">
 
         {% for label, messages in app.flashes %}
@@ -24,7 +26,16 @@
             {% endfor %}
         {% endfor %}
         <main>
-            {% block body %} {% endblock %}
+            <header>
+                {% block header %}
+                    {% include("includes/navbar.html.twig") %}
+                {% endblock %}
+            </header>
+
+            {% block body %}
+
+            {% endblock %}
+
         </main>
     </div>
 </html>

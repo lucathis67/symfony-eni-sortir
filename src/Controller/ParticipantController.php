@@ -15,16 +15,17 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class ParticipantController extends AbstractController
 {
-    #[Route('/modifierProfil/{id}', name: 'participant_modifier', requirements: ["id" => "\d+"])]
-    public function modifier(int                         $id,
-                                  ParticipantRepository       $participantRepository,
-                                  Request                     $request,
-                                  UserPasswordHasherInterface $userPasswordHasher,
-                                  UserAuthenticatorInterface  $userAuthenticator,
-                                  AppAuthenticator            $authenticator,
-                                  EntityManagerInterface      $entityManager): Response
+    #[Route('/participant/modifierProfil', name: 'participant_modifier')]
+    public function modifier(
+        ParticipantRepository       $participantRepository,
+        Request                     $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        UserAuthenticatorInterface  $userAuthenticator,
+        AppAuthenticator            $authenticator,
+        EntityManagerInterface      $entityManager): Response
     {
-        $participant = $participantRepository->find($id);
+        $participant = $this->getUser();
+        //$participant = $participantRepository->find($id);
         if ($participant != null) {
             $form = $this->createForm(ParticipantFormType::class, $participant);
             $form->handleRequest($request);
@@ -39,8 +40,10 @@ class ParticipantController extends AbstractController
 
                 $entityManager->persist($participant);
                 $entityManager->flush();
+
                 $this->addFlash('success', 'Profil modifié!!');
 
+                return $this->redirectToRoute("participant_afficher");
 //                return $userAuthenticator->authenticateUser(
 //                    $participant,
 //                    $authenticator,
@@ -54,11 +57,20 @@ class ParticipantController extends AbstractController
                 "participant" => $participant,
             ]);
         } else {
-
             $this->addFlash('warning', "Utilisateur inconnu !!");
-            //TODO inserer le route de la page de connexion ou de l'accueil
-            return $this->redirectToRoute('app_login');
 
+            return $this->redirectToRoute('app_login');
+        }
+
+    }
+
+    #[Route('/participant', name: 'participant_afficher')]
+    public function afficher( ParticipantRepository $participantRepository)
+    {
+        $participant = $this->getUser();//$participantRepository->find($id);
+
+        if ($participant != null) {
+            return $this->render('participant/afficher.html.twig', ["participant" => $participant]);
         }
 
     }
