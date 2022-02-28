@@ -48,7 +48,7 @@ class AppFixtures extends Fixture
         // CREATION DES TROIS CAMPUS
 
         $campusSaintHerblain = new Campus();
-        $campusSaintHerblain->setNom('SAINT-HERBLAIN');
+        $campusSaintHerblain->setNom('SAINT HERBLAIN');
         $manager->persist($campusSaintHerblain);
 
         $campusChartresDeBretagne = new Campus();

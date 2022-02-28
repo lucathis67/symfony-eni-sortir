@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,74 +22,68 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserInterface|null $user
+     * @param null|UserInterface $user
+     * @param SearchData $searchData
      * @return Sortie[]
      */
-    public function findUsingFilter(
-        UserInterface $user = null,
-        String $contient = null,
-        String $campus = null,
-        \DateTime $dateHeureDebut = null,
-        \DateTime $dateLimiteInscription = null,
-        bool $organisee = false,
-        bool $inscrit = false,
-        bool $nonInscrit = false,
-        bool $passees = false,
-    ): array
+    public function findUsingFilter(SearchData $searchData, null|UserInterface $user): array
     {
-        $queryBuilder = $this->createQueryBuilder('sortie');
-        $queryBuilder->select('sortie');
 
+        $queryBuilder = $this
+            ->createQueryBuilder('sortie')
+            ->select('sortie', 'campus', 'organisateur')
+            ->join('sortie.campus', 'campus')
+            ->join('sortie.organisateur', 'organisateur')
+        ;
 
-        if ($contient) {
-            $queryBuilder
+        if (!empty($searchData->contient)) {
+            $queryBuilder = $queryBuilder
                 ->andWhere("sortie.nom LIKE :contient")
-                ->setParameter('contient', "%".$contient."%");
+                ->setParameter('contient', "%{$searchData->contient}%");
         }
 
-        if ($campus) {
-            $queryBuilder
-                ->andWhere('sortie.campus = :campus')
-                ->setParameter('campus', $campus);
+        if (!empty($searchData->campus)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('campus.nom = :campus')
+                ->setParameter('campus', $searchData->campus);
         }
 
-        if ($dateHeureDebut) {
-            $queryBuilder
+        if (!empty($searchData->dateHeureDebut)) {
+            $queryBuilder = $queryBuilder
                 ->andWhere('sortie.dateHeureDebut >= :dateHeureDebut')
-                ->setParameter('dateHeureDebut', $dateHeureDebut);
+                ->setParameter('dateHeureDebut', $searchData->dateHeureDebut);
         }
 
-        if ($dateLimiteInscription) {
-            $queryBuilder
+        if (!empty($searchData->dateLimiteInscription)) {
+            $queryBuilder = $queryBuilder
                 ->andWhere('sortie.dateLimiteInscription <= :dateLimiteInscription')
-                ->setParameter('dateLimiteInscription', $dateLimiteInscription);
+                ->setParameter('dateLimiteInscription', $searchData->dateLimiteInscription);
         }
 
-        if ($organisee && $user) {
-            $queryBuilder
-                ->andWhere('sortie.organisateur = :user')
-                ->setParameter('user', $user->getUserIdentifier());
+        if (!empty($searchData->organisee && $user)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('organisateur.email = :user')
+                ->setParameter('user', $user);
         }
 
-        if ($inscrit && $user) {
-            $queryBuilder
-                ->andWhere('user MEMBER OF sortie.participants')
-                ->setParameter('user', $user->getUserIdentifier());
+        if (!empty($searchData->inscrit && $user)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere(':user MEMBER OF sortie.participants')
+                ->setParameter('user', $user);
         }
 
-        if ($nonInscrit && $user) {
-            $queryBuilder
-                ->andWhere('user NOT MEMBER OF sortie.participants')
-                ->setParameter('user', $user->getUserIdentifier());
+        if (!empty($searchData->nonInscrit && $user)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere(':user NOT MEMBER OF sortie.participants')
+                ->setParameter('user', $user);
         }
 
-        if ($passees) {
-            $queryBuilder
+        if (!empty($searchData->passees)) {
+            $queryBuilder = $queryBuilder
                 ->andWhere('sortie.dateHeureDebut <= :today')
                 ->setParameter('today', new \DateTime());
         }
-
-        $queryBuilder->orderBy('sortie.dateHeureDebut', 'ASC');
+        
         $query = $queryBuilder->getQuery();
         return $query->getResult();
     }

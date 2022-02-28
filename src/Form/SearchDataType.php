@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Sortie;
+use App\Data\SearchData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -11,24 +11,23 @@ use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SortieFilterType extends AbstractType
+class SearchDataType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('contient', SearchType::class, [
                 'label' => 'Le nom de la sortie contient',
                 'required' => false,
-                'mapped' => false,
             ])
             ->add('campus', ChoiceType::class, [
                 'choices' => [
-                    'SAINT-HERBLAIN' => 'SAINT-HERBLAIN',
-                    'CHARTRES DE BRETAGNE' => 'CHARTRES DE BRETAGNE',
-                    'LA ROCHE SUR YON' => 'LA ROCHE SUR YON',
+                    'SAINT-HERBLAIN' => 'Saint-Herblain',
+                    'CHARTRES DE BRETAGNE' => 'Chartres de Bretagne',
+                    'LA ROCHE SUR YON' => 'La Roche sur Yon',
                 ],
                 'multiple' => false,
-                'mapped' => false,
+                'required' => false,
             ])
             ->add('dateHeureDebut', DateType::class, [
                 'html5' => true,
@@ -45,22 +44,18 @@ class SortieFilterType extends AbstractType
             ->add('organisee', CheckboxType::class, [
                 'label' => 'Sorties dont je suis l\'organisateur/trice',
                 'required' => false,
-                'mapped' => false,
             ])
             ->add('inscrit', CheckboxType::class, [
                 'label' => 'Sorties auxquelles je suis inscrit/e',
                 'required' => false,
-                'mapped' => false,
             ])
             ->add('nonInscrit', CheckboxType::class, [
                 'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
                 'required' => false,
-                'mapped' => false,
             ])
             ->add('passees', CheckboxType::class, [
                 'label' => 'Sorties passées',
                 'required' => false,
-                'mapped' => false,
             ])
         ;
     }
@@ -68,7 +63,14 @@ class SortieFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Sortie::class,
+            'data_class' => SearchData::class,
+            'method' => 'GET',
+            'csrf_protection' => false
         ]);
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return '';
     }
 }
