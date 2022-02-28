@@ -48,6 +48,19 @@ nav li {
     margin-right: 1rem;
 }
 
+header nav a:hover{
+    text-decoration: underline;
+}
+.header-nav{
+    display:flex;
+}
+
+header{
+    background-color: #a46a1f;
+    padding: 1rem 0;
+
+}
+
 .image-participant {
   display: grid;
 
@@ -86,7 +99,7 @@ select {
     border-radius: 5px;
 }
 
-.flash-success {background-color: lawngreen}
+.flash-success {background-color: darkgreen}
 
 /*
 ========================
@@ -113,5 +126,6 @@ th, td {
     padding: 0.5em;
     border: 1px solid black;
 }
+
 
 

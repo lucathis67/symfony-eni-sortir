@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="participant-infos">
-        {{ form_start(participantForm) }}
+        {{ form_start(participantForm, {'attr': {'id': 'modifProfil'}}) }}
         <input type="hidden" name="id"
                value="{{ participant.id }}"
         >

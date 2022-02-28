@@ -25,6 +25,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
 
+
         for ($i = 0; $i < 15; $i++)
         {
             $ville = new Ville();
@@ -56,6 +57,9 @@ class AppFixtures extends Fixture
             $participant->setCampus($campus);
             $manager->persist($participant);
 
+
+
+
             $etat = new Etat();
             $etat->setLibelle('Ouverte');
             $manager->persist($etat);
@@ -73,6 +77,18 @@ class AppFixtures extends Fixture
             $sortie->setLieu($lieu);
             $manager->persist($sortie);
         }
+
+        $participant = new Participant();
+        $participant->setNom('dhib');
+        $participant->setPrenom('kamel');
+        $participant->setPseudo('caliel68' );
+        $participant->setEmail('kd@kd.com');
+        $participant->setPassword($this->hasher->hashPassword($participant, '123456789'));
+        $participant->setTelephone('0612345678');
+        $participant->setAdministrateur(true);
+        $participant->setActif(true);
+        $participant->setCampus($campus);
+        $manager->persist($participant);
 
         $manager->flush();
     }

@@ -15,9 +15,8 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class ParticipantController extends AbstractController
 {
-    #[Route('/participant/modifierProfil/{id}', name: 'participant_modifier')]
+    #[Route('/participant/modifierProfil', name: 'participant_modifier')]
     public function modifier(
-        int $id,
         ParticipantRepository       $participantRepository,
         Request                     $request,
         UserPasswordHasherInterface $userPasswordHasher,
@@ -25,8 +24,8 @@ class ParticipantController extends AbstractController
         AppAuthenticator            $authenticator,
         EntityManagerInterface      $entityManager): Response
     {
-        //$participant = $this->getUser();
-        $participant = $participantRepository->find($id);
+        $participant = $this->getUser();
+        //$participant = $participantRepository->find($id);
         if ($participant != null) {
             $form = $this->createForm(ParticipantFormType::class, $participant);
             $form->handleRequest($request);
@@ -44,7 +43,7 @@ class ParticipantController extends AbstractController
 
                 $this->addFlash('success', 'Profil modifié!!');
 
-                return $this->redirectToRoute("participant_afficher",['id'=> $participant->getId() ]);
+                return $this->redirectToRoute("participant_afficher");
 //                return $userAuthenticator->authenticateUser(
 //                    $participant,
 //                    $authenticator,
@@ -59,16 +58,16 @@ class ParticipantController extends AbstractController
             ]);
         } else {
             $this->addFlash('warning', "Utilisateur inconnu !!");
-            //TODO inserer le route de la page de connexion ou de l'accueil
+
             return $this->redirectToRoute('app_login');
         }
 
     }
 
-    #[Route('/participant/{id}', name: 'participant_afficher', requirements: ["id" => "\d+"])]
-    public function afficher(int $id, ParticipantRepository $participantRepository)
+    #[Route('/participant', name: 'participant_afficher')]
+    public function afficher( ParticipantRepository $participantRepository)
     {
-        $participant = $participantRepository->find($id);
+        $participant = $this->getUser();//$participantRepository->find($id);
 
         if ($participant != null) {
             return $this->render('participant/afficher.html.twig', ["participant" => $participant]);

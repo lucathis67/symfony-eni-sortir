@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport"
@@ -13,6 +13,8 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         {% block extrastyles %}{% endblock %}
     </head>
+
+
     <div class="container">
 
         {% for label, messages in app.flashes %}
@@ -23,7 +25,16 @@
             {% endfor %}
         {% endfor %}
         <main>
-            {% block body %} {% endblock %}
+            <header>
+                {% block header %}
+                    {% include("includes/navbar.html.twig") %}
+                {% endblock %}
+            </header>
+
+            {% block body %}
+
+            {% endblock %}
+
         </main>
     </div>
 </html>
