@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-
 #[ORM\Entity(repositoryClass: CampusRepository::class)]
 class Campus
 {
@@ -107,7 +106,7 @@ class Campus
     /**
      * @return Sortie[]
      */
-    public function getSorties(): Sortie
+    public function getSorties()
     {
         return $this->sorties;
     }
@@ -140,5 +139,13 @@ class Campus
         }
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function __toString()
+    {
+        return $this->getNom();
     }
 }

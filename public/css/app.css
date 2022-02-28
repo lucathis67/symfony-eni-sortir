@@ -86,8 +86,37 @@ select {
     border-radius: 5px;
 }
 
-.flash-success {background-color: lawngreen}
+.flash-success {
+    background-color: lawngreen
+}
 
+/**
+ *  DEBUT Créer un sortie
+ */
 
+#creerSortie h1 {
+    text-align: center;
+    font-size: 35px;
+}
 
+#creerSortie form {
+    text-align: center;
+}
 
+#creerSortie form .div-input {
+    display: inline-block;
+    width: 300px;
+}
+
+#creerSortie form div input{
+    width: 200px;
+}
+
+#creerSortie .btn-form div{
+    display: inline-block;
+    width: 200px;
+}
+
+/**
+ *  FIN Créer un sortie
+ */
