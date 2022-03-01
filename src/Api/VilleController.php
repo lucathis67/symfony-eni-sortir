@@ -3,6 +3,7 @@
 namespace App\Api;
 
 use App\Entity\Ville;
+use App\Repository\LieuRepository;
 use App\Repository\VilleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,15 +13,36 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Route('/ville')]
 class VilleController extends AbstractController
 {
+    /**
+     * @var VilleRepository
+     */
     private VilleRepository $villeRepository;
+    /**
+     * @var SerializerInterface
+     */
     private SerializerInterface $serializer;
+    /**
+     * @var LieuRepository
+     */
+    private LieuRepository $lieuRepository;
 
-    public function __construct(VilleRepository $villeRepository, SerializerInterface $serializer)
+    /**
+     * @param VilleRepository $villeRepository
+     * @param SerializerInterface $serializer
+     * @param LieuRepository $lieuRepository
+     */
+    public function __construct(VilleRepository     $villeRepository,
+                                SerializerInterface $serializer,
+                                LieuRepository      $lieuRepository)
     {
         $this->villeRepository = $villeRepository;
         $this->serializer = $serializer;
+        $this->lieuRepository = $lieuRepository;
     }
 
+    /**
+     * @return JsonResponse
+     */
     #[Route('/', methods: ["GET"])]
     public function liste()
     {
@@ -34,19 +56,15 @@ class VilleController extends AbstractController
         return new JsonResponse($json, json: true);
     }
 
+    /**
+     * @param Ville $ville
+     * @return JsonResponse
+     */
     #[Route('/lieux/{id}', methods: ["GET"])]
-    public function getLieux(Ville $ville)
+    public function getLieux(Ville $ville, SerializerInterface $serializer): JsonResponse
     {
-        $json = $this->serializer->serialize(
-            $ville->getLieux(),
-            'json',
-            [
-                'circular_reference_handler' => function ($object) {
-                    return $object->getId();
-                }
-            ]
-        );
+        $responseArray = $serializer->serialize($ville, 'json');
 
-        return new JsonResponse($json, json: true);
+        return new JsonResponse($responseArray, json: true);
     }
 }

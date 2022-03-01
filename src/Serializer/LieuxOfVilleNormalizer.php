@@ -22,7 +22,7 @@ class LieuxOfVilleNormalizer implements ContextAwareNormalizerInterface
             $data["longitude"] = $lieu->getLongitude();
             $data["latitude"] = $lieu->getLatitude();
             $data["ville"]["id]"] = $lieu->getVille()->getId();
-            $data["ville"]["codePostal]"] = $lieu->getVille()->getCodePostal();
+            $data["ville"]["codePostal"] = $lieu->getVille()->getCodePostal();
             $datas[] = $data;
         }
         return $datas;

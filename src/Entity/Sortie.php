@@ -38,7 +38,7 @@ class Sortie
     #[Assert\Type(type: "\DateTime", message: "type de valeur invalide")]
     #[Assert\NotBlank(message: "veuillez renseigner la date limite d'inscription")]
     #[Assert\GreaterThan(value: "today", message: "la date renseignée est passée")]
-    #[Assert\GreaterThan(propertyPath: "dateHeureDebut", message: "veuillez renseigner une date antérieure à celle de la sortie")]
+    #[Assert\LessThan(propertyPath: "dateHeureDebut", message: "veuillez renseigner une date antérieure à celle de la sortie")]
     private $dateLimiteInscription;
 
     #[ORM\Column(type: "integer")]
