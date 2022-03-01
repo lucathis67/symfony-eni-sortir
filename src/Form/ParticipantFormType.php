@@ -4,15 +4,17 @@ namespace App\Form;
 
 use App\Entity\Campus;
 use App\Entity\Participant;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -69,6 +71,23 @@ class ParticipantFormType extends AbstractType
                 'class' => Campus::class,
                 'choice_label' => 'nom'
             ])
+            ->add('upload_file', FileType::class, [
+                'label' => 'Uploader une photo',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/bmp',
+                            'image/gif'
+                        ],
+                        'mimeTypesMessage' => "Le format n'est pas valide.",
+                    ])
+                ],
+            ])
+            //->add('Envoi', SubmitType::class);
 //            ->add('administrateur')
 //            ->add('actif')
 //            ->add('sorties')

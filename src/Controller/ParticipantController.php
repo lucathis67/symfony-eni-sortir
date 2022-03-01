@@ -61,7 +61,6 @@ class ParticipantController extends AbstractController
 
             return $this->redirectToRoute('app_login');
         }
-
     }
 
     #[Route('/participant', name: 'participant_afficher')]
