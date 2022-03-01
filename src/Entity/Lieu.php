@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\LieuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -53,9 +54,9 @@ class Lieu
     }
 
     /**
-     * @return mixed
+     * @return ?Uuid
      */
-    public function getId(): mixed
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -191,5 +192,13 @@ class Lieu
         $this->ville = $ville;
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function __toString()
+    {
+        return $this->getNom();
     }
 }

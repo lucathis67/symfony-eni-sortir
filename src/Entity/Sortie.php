@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -19,29 +20,29 @@ class Sortie
 
     #[ORM\Column(type: "string", length: 50)]
     #[Assert\Type("string")]
-    #[Assert\NotBlank(message: "veuillez renseigner un nom de sortie")]
-    #[Assert\Length(max: 50, maxMessage: "maximum 50 caractères")]
+    #[Assert\NotBlank(message: "Veuillez renseigner un nom de sortie")]
+    #[Assert\Length(max: 50, maxMessage: "Maximum 50 caractères")]
     private $nom;
 
-    #[ORM\Column(type: "datetime", length: 50)]
-    #[Assert\Type(type: "\DateTime", message: "La valeur est de type invalide")]
-    #[Assert\NotBlank(message: "veuillez renseigner la date de la sortie")]
-    #[Assert\GreaterThan(value: "today", message: "la date renseignée est passée")]
+    #[ORM\Column(type: "datetime")]
+    #[Assert\Type(type: "\Datetime", message: "La valeur n'est pas valide")]
+    #[Assert\NotBlank(message: "Veuillez renseigner la date de la sortie")]
+    #[Assert\GreaterThan(value: "today", message: "La date renseignée est passée")]
     private $dateHeureDebut;
 
     #[ORM\Column(type: "integer")]
-    #[Assert\Type(type: "integer", message: "type de valeur invalide")]
+    #[Assert\Type(type: "integer", message: "La valeur n'est pas valide")]
     private $duree;
 
     #[ORM\Column(type: "datetime")]
     #[Assert\Type(type: "\DateTime", message: "type de valeur invalide")]
     #[Assert\NotBlank(message: "veuillez renseigner la date limite d'inscription")]
     #[Assert\GreaterThan(value: "today", message: "la date renseignée est passée")]
-    #[Assert\LessThan(propertyPath: "dateHeureDebut", message: "veuillez renseigner une date antérieure à celle de la sortie")]
+    #[Assert\GreaterThan(propertyPath: "dateHeureDebut", message: "veuillez renseigner une date antérieure à celle de la sortie")]
     private $dateLimiteInscription;
 
     #[ORM\Column(type: "integer")]
-    #[Assert\Type(type: "integer", message: "la valeur est de type valide")]
+    #[Assert\Type(type: "integer", message: "La valeur n'est pas valide")]
     private $nbInscriptionsMax;
 
     #[ORM\Column(type: "string", length: 150, nullable: true)]
@@ -75,9 +76,9 @@ class Sortie
     }
 
     /**
-     * @return mixed
+     * @return ?Uuid
      */
-    public function getId(): mixed
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

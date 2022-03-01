@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +22,68 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    // /**
-    //  * @return Sortie[] Returns an array of Sortie objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param null|Participant $user
+     * @param SearchData $searchData
+     * @return Sortie[]
+     */
+    public function findUsingFilter(SearchData $searchData, null|Participant $user): array
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $queryBuilder = $this
+            ->createQueryBuilder('sortie')
+            ->select('sortie', 'campus', 'organisateur')
+            ->join('sortie.campus', 'campus')
+            ->join('sortie.organisateur', 'organisateur')
         ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Sortie
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if (!empty($searchData->contient)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere("sortie.nom LIKE :contient")
+                ->setParameter('contient', "%{$searchData->contient}%");
+        }
+
+        if (!empty($searchData->campus)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('sortie.campus = :campus')
+                ->setParameter('campus', $searchData->campus->getId(), 'uuid');
+        }
+
+        if (!empty($searchData->dateHeureDebut)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('sortie.dateHeureDebut >= :dateHeureDebut')
+                ->setParameter('dateHeureDebut', $searchData->dateHeureDebut);
+        }
+
+        if (!empty($searchData->dateLimiteInscription)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('sortie.dateLimiteInscription <= :dateLimiteInscription')
+                ->setParameter('dateLimiteInscription', $searchData->dateLimiteInscription);
+        }
+
+        if (!empty($searchData->organisee && $user)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('sortie.organisateur = :user')
+                ->setParameter('user', $user->getId(), 'uuid');
+        }
+
+        if (!empty($searchData->inscrit && $user)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere(':user MEMBER OF sortie.participants')
+                ->setParameter('user', $user->getId(), 'uuid');
+        }
+
+        if (!empty($searchData->nonInscrit && $user)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere(':user NOT MEMBER OF sortie.participants')
+                ->setParameter('user', $user->getId(), 'uuid');
+        }
+
+        if (!empty($searchData->passees)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('sortie.dateHeureDebut <= :today')
+                ->setParameter('today', new \DateTime());
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
-    */
 }

@@ -5,8 +5,8 @@ namespace App\Entity;
 use App\Repository\CampusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 
 #[ORM\Entity(repositoryClass: CampusRepository::class)]
@@ -40,9 +40,9 @@ class Campus
     }
 
     /**
-     * @return mixed
+     * @return ?Uuid
      */
-    public function getId(): mixed
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -107,7 +107,7 @@ class Campus
     /**
      * @return Sortie[]
      */
-    public function getSorties(): Sortie
+    public function getSorties()
     {
         return $this->sorties;
     }
@@ -140,5 +140,13 @@ class Campus
         }
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function __toString()
+    {
+        return $this->getNom();
     }
 }

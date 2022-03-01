@@ -99,10 +99,11 @@ select {
     border-radius: 5px;
 }
 
-.flash-success {background-color: darkgreen}
+.flash-success {
+    background-color: lawngreen
+}
 
-/*
-========================
+/**
 PAGE LISTANT LES SORTIES
  */
 
@@ -118,14 +119,59 @@ tbody tr:nth-of-type(even) {
     background-color: lightgrey;
 }
 
-tbody tr:hover {
-    color: red;
-}
-
 th, td {
     padding: 0.5em;
     border: 1px solid black;
 }
 
+/********************************************/
+/**
+ *  DEBUT Créer une sortie
+ */
 
+#creerSortie h1 {
+    text-align: center;
+    font-size: 35px;
+}
 
+#creerSortie form {
+    text-align: center;
+}
+
+#creerSortie form .div-input {
+    display: inline-block;
+    width: 300px;
+}
+
+#creerSortie form div input{
+    width: 200px;
+}
+
+#creerSortie .btn-form div {
+    display: inline-block;
+    width: 200px;
+}
+
+/********************************************/
+/**
+ *  DEBUT Afficher une sortie
+ */
+#afficherSortie h1 {
+    text-align: center;
+    font-size: 35px;
+}
+
+#afficherSortie .div-span {
+    display: inline-block;
+    width: 300px;
+    margin: 0 6%;
+    vertical-align: top;
+}
+
+#afficherSortie .div-span div {
+    margin: 10px;
+    padding: 10px;
+    width: 500px;
+}
+
+/********************************************/

@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+{% block script %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            var selectLieux = $("#sortie_lieu");
+            var selectVille = $("#sortie_ville");
+            var lieux;
+
+            selectVille.change(function () {
+                reinitialiserSelectLieux();
+                if ($(this).val()) {
+                    chargerLieux($(this).val(), remplirSelectLieux);
+                } else {
+                    selectLieux.prop("disabled", true);
+                }
+                viderChampsLieu();
+            });
+
+            if (!selectLieux.val()) {
+                selectVille.change();
+            }
+
+            // Lors d'un retour sur la page dû à une erreur dans le formulaire
+            // appelle les fonctions indispensables afin de rétablir les valeurs d'avant le submit
+            if (selectLieux.val()) {
+                chargerLieux(selectVille.val(), null);
+                donnerIndexOptionsLieux();
+                selectLieux.prop("disabled", false);
+                remplirChampsLieu(selectLieux);
+            }
+
+            selectLieux.change(function () {
+                if ($(this).val()) {
+                    remplirChampsLieu()
+                } else {
+                    viderChampsLieu();
+                }
+            });
+
+            // Peut être utilisé seulement si chargerLieux() a été appellé
+            function remplirChampsLieu() {
+                var lieuSelected = lieux[$('option:selected', selectLieux).data('index')];
+                $('#sortie_rue').val(lieuSelected.rue);
+                $('#sortie_codePostal').val(lieuSelected.ville.codePostal);
+                $('#sortie_latitude').val(lieuSelected.latitude);
+                $('#sortie_longitude').val(lieuSelected.longitude);
+            }
+
+            // Vide les champs si aucun lieu n'est séléctionné
+            function viderChampsLieu() {
+                $('#sortie_rue').val('');
+                $('#sortie_codePostal').val('');
+                $('#sortie_latitude').val('');
+                $('#sortie_longitude').val('');
+            }
+
+            // Est appelée en cas de changement de lieu au de non selection d'une ville
+            function reinitialiserSelectLieux() {
+                selectLieux.children().remove();
+                selectLieux.append(
+                    "<option value>Choisissez un lieu</option>"
+                );
+            }
+
+            // Permet de charger les lieux en fonction de la ville selectionnée
+            // Et si la fonction est appelée lors d'un changement de ville f=remplirSelectLieux
+            // Sinon elle est appelée lors d'un retour sur la page dû à une erreur dans le formulaire
+            // et alors nul besoin de remplir le select des lieux car chargé automatiquement
+            function chargerLieux(villeId, f) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/sortir/public/api/ville/lieux/' + villeId,
+                    async: false,
+                    success: function (data) {
+                        lieux = data;
+                        if (f) {
+                            f(data);
+                        }
+                    }
+                });
+            }
+
+            function remplirSelectLieux(data) {
+                $.each(data, function (index, value) {
+                    selectLieux.append(
+                        "<option data-index='" + index + "' value='" + value.id + "'>" + value.nom + "</option>"
+                    );
+                });
+                selectLieux.prop("disabled", false);
+            }
+
+            // Fonction appelée pour donner un data-index au option du select des lieux
+            // lors d'un retour sur la page dû à une erreur dans le formulaire
+            // Ce data-index est indispensable pour remplirChampsLieu()
+            function donnerIndexOptionsLieux() {
+                var i = -1; // Je donne l'index -1 à la première option "Choisissez un lieu"
+                selectLieux.children().each(function () {
+                    $(this).data("index", i++);
+                })
+            }
+        });
+    </script>
+{% endblock %}
+{% block body %}
+    <section id="creerSortie">
+        <h1>Créer un sortie</h1>
+        {{ form_start(sortieForm) }}
+
+{#        {{ form_widget(sortieForm) }}#}
+        <div class="div-input">
+            {{ form_row(sortieForm.nom) }}
+            {{ form_row(sortieForm.dateHeureDebut) }}
+            {{ form_row(sortieForm.dateLimiteInscription) }}
+            {{ form_row(sortieForm.duree) }}
+            {{ form_row(sortieForm.nbInscriptionsMax) }}
+            {{ form_row(sortieForm.infosSortie) }}
+        </div>
+        <div class="div-input">
+            {{ form_row(sortieForm.campus) }}
+            {{ form_row(sortieForm.ville) }}
+            {{ form_row(sortieForm.lieu) }}
+            {{ form_row(sortieForm.rue) }}
+            {{ form_row(sortieForm.codePostal) }}
+            {{ form_row(sortieForm.latitude) }}
+            {{ form_row(sortieForm.longitude) }}
+        </div>
+
+        <div class="btn-form">
+            {{ form_row(sortieForm.save) }}
+            {{ form_row(sortieForm.saveAndPublish) }}
+            <div><button>Annuler</button></div>
+        </div>
+
+        {{ form_end(sortieForm) }}
+    </section>
+{% endblock %}
+
+{% block title %}
+    {{ parent() }} | Ajouter une sortie
+{% endblock %}
