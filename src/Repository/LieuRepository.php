@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Lieu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,9 +15,22 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LieuRepository extends ServiceEntityRepository
 {
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Lieu::class);
+    }
+
+
+    public function findByIdVille($idVille)
+    {
+        return $this->createQueryBuilder("l")
+            ->where("l.ville = :villeid")
+            ->setParameter("villeid", $idVille, 'uuid')
+            ->getQuery()
+            ->getResult();
     }
 
     // /**
