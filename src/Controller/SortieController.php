@@ -43,7 +43,7 @@ class SortieController extends AbstractController
             $sortie->getEtat()->getLibelle() == 'Ouverte' &&
             $sortie->getParticipants()->count() < $sortie->getNbInscriptionsMax()) {
 
-            $participant = $this->getUser();//TODO voir pourquoi le getUser ne fonctionne pas
+            $participant = $this->getUser();
             $sortie->addParticipant($participant);
             $entityManager->persist($sortie);
             $entityManager->flush();
