@@ -24,7 +24,6 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-
         // CREATION DE TROIS VILLES
 
         $villeSaintHerblain = new Ville();

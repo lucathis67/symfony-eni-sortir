@@ -7,6 +7,9 @@ use App\Form\SortieFilterType;
 use App\Form\SortieType;
 use App\Manager\SortieManager;
 use App\Repository\CampusRepository;
+use App\Repository\EtatRepository;
+use App\Data\SearchData;
+use App\Form\SearchDataType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,33 +21,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('', name: 'list')]
-    public function list(SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
+    public function list(Request $request, SortieRepository $sortieRepository): Response
     {
-        $campuses = $campusRepository->findAll();
-        $sortie = new Sortie();
-        $sortieForm = $this->createForm(SortieFilterType::class, $sortie);
-
-        if (isset($_POST))
-        {
-            $sorties = $sortieRepository->findBy(
-                [],
-                []
-            );
-            return $this->render('sortie/list.html.twig', [
-                'sorties' => $sorties,
-                'campuses' => $campuses,
-                'sortieForm' => $sortieForm->createView()
-                ]);
-        }
-        else
-        {
-            $sorties = $sortieRepository->findAll();
-            return $this->render('sortie/list.html.twig', [
-                'sorties' => $sorties,
-                'campuses' => $campuses,
-                'sortieForm' => $sortieForm->createView()
-            ]);
-        }
+        $searchData = new SearchData();
+        $form = $this->createForm(SearchDataType::class, $searchData);
+        $form->handleRequest($request);
+        $sorties = $sortieRepository->findUsingFilter(searchData: $searchData, user: $this->getUser());
+        return $this->render('sortie/list.html.twig', [
+            'sorties' => $sorties,
+            'sortieForm' => $form->createView()
+        ]);
     }
 
     public function inscription(int $id, SortieRepository $sortieRepository, EntityManager $entityManager)
