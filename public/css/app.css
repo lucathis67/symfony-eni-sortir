@@ -103,6 +103,7 @@ select {
     background-color: lawngreen
 }
 
+/**
 PAGE LISTANT LES SORTIES
  */
 
@@ -127,8 +128,9 @@ th, td {
     border: 1px solid black;
 }
 
+/********************************************/
 /**
- *  DEBUT Créer un sortie
+ *  DEBUT Créer une sortie
  */
 
 #creerSortie h1 {
@@ -149,11 +151,31 @@ th, td {
     width: 200px;
 }
 
-#creerSortie .btn-form div{
+#creerSortie .btn-form div {
     display: inline-block;
     width: 200px;
 }
 
+/********************************************/
 /**
- *  FIN Créer un sortie
+ *  DEBUT Afficher une sortie
  */
+#afficherSortie h1 {
+    text-align: center;
+    font-size: 35px;
+}
+
+#afficherSortie .div-span {
+    display: inline-block;
+    width: 300px;
+    margin: 0 6%;
+    vertical-align: top;
+}
+
+#afficherSortie .div-span div {
+    margin: 10px;
+    padding: 10px;
+    width: 500px;
+}
+
+/********************************************/

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EtatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -35,9 +36,9 @@ class Etat
     }
 
     /**
-     * @return mixed
+     * @return ?Uuid
      */
-    public function getId(): mixed
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
