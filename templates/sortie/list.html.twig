@@ -23,46 +23,6 @@
             {{ form_end(sortieForm) }}
         </div>
 
-
-        <form method="post" style="display: none">
-
-            <label for="campus">Campus</label>
-            <select name="campus" id="campus">
-                {% for campus in campuses %}
-                    <option value="{{ campus.nom }}">{{ campus.nom }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="keyword">Le nom de la sortie contient: </label>
-            <input id="keyword" name="keyword" type="search">
-
-            <div>
-                <label for="min-date">Entre: </label>
-                <input id="min-date" name="minDate" type="date">
-
-                <label for="max-date">et</label>
-                <input id="max-date" name="maxDate" type="date">
-            </div>
-
-            <div>
-                <label for="i-organise">Sorties dont je suis l'organisateur/trice</label>
-                <input id="i-organise" name="organised" type="checkbox">
-
-                <label for="i-subscribed">sorties auxquelles je suis inscrit/e</label>
-                <input id="i-subscribed" name="subscribed" type="checkbox">
-
-                <label for="not-subscribed">Sorties auxquelles je ne suis pas inscrit/e</label>
-                <input id="not-subscribed" name="unsubscribed" type="checkbox">
-
-                <label for="past-sorties">Sorties passées</label>
-                <input id="past-sorties" name="past" type="checkbox">
-            </div>
-
-            <button type="submit">Rechercher</button>
-        </form>
-
-    </div>
-
     <div class="sorties-list">
         <table>
             <thead>
@@ -86,8 +46,19 @@
                     <td>{{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
                     <td></td>
-                    <td>{{ sortie.organisateur.nom }}</td>
-                    <td></td>
+                    <td>{{ sortie.organisateur.prenom }}</td>
+                    <td>
+                        {% for participant in sortie.participants %}
+                            {% if participant.id == app.user.id %}<a>Se Désister</a>{% endif %}
+                        {% else %}
+                            <a>S'inscrire</a>
+                        {% endfor %}
+                        {% if sortie.organisateur == app.user %}
+                            <a href="#">Modifier</a>
+                            <a href="#">Publier</a>
+                        {% endif %}
+                        <a href="#">Afficher</a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
