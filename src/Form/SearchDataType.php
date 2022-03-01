@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Data\SearchData;
+use App\Entity\Campus;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,14 +22,10 @@ class SearchDataType extends AbstractType
                 'label' => 'Le nom de la sortie contient',
                 'required' => false,
             ])
-            ->add('campus', ChoiceType::class, [
-                'choices' => [
-                    'SAINT-HERBLAIN' => 'Saint-Herblain',
-                    'CHARTRES DE BRETAGNE' => 'Chartres de Bretagne',
-                    'LA ROCHE SUR YON' => 'La Roche sur Yon',
-                ],
-                'multiple' => false,
-                'required' => false,
+            ->add('campus', EntityType::class, [
+                'class' => Campus::class,
+                'choice_label' => 'nom',
+                'required' => false
             ])
             ->add('dateHeureDebut', DateType::class, [
                 'html5' => true,

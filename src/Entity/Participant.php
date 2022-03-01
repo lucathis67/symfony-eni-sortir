@@ -6,6 +6,7 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,23 +23,17 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\NotBlank(message: "L'email doit être renseigné.")]
     #[Assert\Email(message:"L'email {{ value }} n'est pas un email valide.")]
-    #[Assert\Length(max : 180,
-        maxMessage: "L'email ne peut excéder 180 caractères")]
+    #[Assert\Length(max : 180, maxMessage: "L'email ne peut excéder 180 caractères")]
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private $email;
 
     #[Assert\NotBlank(message: "Le mot de passe doit être renseigné.")]
-    //TODO : CF Philippe
-   // #[Assert\Type(type: ['alnum'])]
-    #[Assert\Length(min : 8,
-        minMessage: "Le mot de passe doit comporté au minimum 8 caractères alphanumériques")]
+    #[Assert\Length(min : 8, minMessage: "Le mot de passe doit comporté au minimum 8 caractères alphanumériques")]
     #[ORM\Column(type: 'string')]
     private $password;
 
     #[Assert\NotBlank(message: "Le nom doit être renseigné.")]
-    #[Assert\Length(min: 2, max: 50,
-        minMessage: "Le nom doit avoir au moins 2 caractères",
-        maxMessage: "Le nom ne peut excéder 50 caractères")]
+    #[Assert\Length(min: 2, max: 50, minMessage: "Le nom doit avoir au moins 2 caractères", maxMessage: "Le nom ne peut excéder 50 caractères")]
     #[ORM\Column(type: 'string', length: 50)]
     private $nom;
 
@@ -50,8 +45,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $prenom;
 
     #[Assert\NotBlank(message: "Le téléphone doit être renseigné.")]
-    #[Assert\Length(max: 10,
-        maxMessage: "Le téléphone ne peut excéder 10 caractères")]
+    #[Assert\Length(max: 10, maxMessage: "Le téléphone ne peut excéder 10 caractères")]
     #[ORM\Column(type: 'string', length: 10)]
     private $telephone;
 
@@ -62,8 +56,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $actif;
 
     #[Assert\NotBlank(message: "Le pseudo doit être renseigné.")]
-    #[Assert\Length(max: 50,
-        maxMessage: "Le pseudo ne peut excéder 50 caractères")]
+    #[Assert\Length(max: 50, maxMessage: "Le pseudo ne peut excéder 50 caractères")]
     #[ORM\Column(type: 'string', length: 50, unique: true)]
     private $pseudo;
 
@@ -83,7 +76,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sortiesOrganisees = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

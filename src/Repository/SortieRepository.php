@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Data\SearchData;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,13 +23,12 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param null|UserInterface $user
+     * @param null|Participant $user
      * @param SearchData $searchData
      * @return Sortie[]
      */
-    public function findUsingFilter(SearchData $searchData, null|UserInterface $user): array
+    public function findUsingFilter(SearchData $searchData, null|Participant $user): array
     {
-
         $queryBuilder = $this
             ->createQueryBuilder('sortie')
             ->select('sortie', 'campus', 'organisateur')
@@ -44,8 +44,8 @@ class SortieRepository extends ServiceEntityRepository
 
         if (!empty($searchData->campus)) {
             $queryBuilder = $queryBuilder
-                ->andWhere('campus.nom = :campus')
-                ->setParameter('campus', $searchData->campus);
+                ->andWhere('sortie.campus = :campus')
+                ->setParameter('campus', $searchData->campus->getId(), 'uuid');
         }
 
         if (!empty($searchData->dateHeureDebut)) {
@@ -62,20 +62,20 @@ class SortieRepository extends ServiceEntityRepository
 
         if (!empty($searchData->organisee && $user)) {
             $queryBuilder = $queryBuilder
-                ->andWhere('organisateur.email = :user')
-                ->setParameter('user', $user);
+                ->andWhere('sortie.organisateur = :user')
+                ->setParameter('user', $user->getId(), 'uuid');
         }
 
         if (!empty($searchData->inscrit && $user)) {
             $queryBuilder = $queryBuilder
                 ->andWhere(':user MEMBER OF sortie.participants')
-                ->setParameter('user', $user);
+                ->setParameter('user', $user->getId(), 'uuid');
         }
 
         if (!empty($searchData->nonInscrit && $user)) {
             $queryBuilder = $queryBuilder
                 ->andWhere(':user NOT MEMBER OF sortie.participants')
-                ->setParameter('user', $user);
+                ->setParameter('user', $user->getId(), 'uuid');
         }
 
         if (!empty($searchData->passees)) {
@@ -83,8 +83,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('sortie.dateHeureDebut <= :today')
                 ->setParameter('today', new \DateTime());
         }
-        
-        $query = $queryBuilder->getQuery();
-        return $query->getResult();
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }

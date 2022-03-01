@@ -3,10 +3,12 @@
 namespace App\Data;
 
 
+use App\Entity\Campus;
+
 class SearchData
 {
     public null|string $contient = null;
-    public null|string $campus = null;
+    public null|Campus $campus = null;
     public null|\DateTime $dateHeureDebut = null;
     public null|\DateTime $dateLimiteInscription = null;
     public bool $organisee = false;

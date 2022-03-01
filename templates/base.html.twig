@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         {% block extrastyles %}{% endblock %}
     </head>
+    <body>
     <div class="container">
 
         {% for label, messages in app.flashes %}
@@ -26,4 +27,5 @@
             {% block body %} {% endblock %}
         </main>
     </div>
+    </body>
 </html>
