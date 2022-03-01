@@ -14,8 +14,8 @@
                     chargerLieux($(this).val(), remplirSelectLieux);
                 } else {
                     selectLieux.prop("disabled", true);
-                    viderChampsLieu()
                 }
+                viderChampsLieu();
             });
 
             if (!selectLieux.val()) {

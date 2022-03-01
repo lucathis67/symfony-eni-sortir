@@ -77,7 +77,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sortiesOrganisees = new ArrayCollection();
     }
 
-
     public function getId(): ?Uuid
     {
         return $this->id;
