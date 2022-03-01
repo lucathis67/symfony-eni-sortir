@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\Uuid;
 
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
@@ -43,10 +44,12 @@ class SortieController extends AbstractController
             ]);
         }
     }
-
-    public function inscription(int $id, SortieRepository $sortieRepository, EntityManager $entityManager)
+    #[Route('/', name: 'inscription')]
+    public function inscription(uuid $id, SortieRepository $sortieRepository, EntityManager $entityManager)
     {
+        dd($id);
         $sortie = $sortieRepository->find($id);
+
         $dateDebutSortie = $sortie->getDateHeureDebut();
         $dateInscription = getdate();
 
@@ -54,10 +57,11 @@ class SortieController extends AbstractController
             $sortie->getEtat()->getLibelle() == 'Ouverte' &&
             $sortie->getParticipants()->count() < $sortie->getNbInscriptionsMax()) {
 
-            $participant = $this->getUser();//TODO voir pourquoi le getUser ne fonctionne pas
+            $participant = $this->getUser();
             $sortie->addParticipant($participant);
             $entityManager->persist($sortie);
             $entityManager->flush();
+            return $this->redirectToRoute("sortie_list");
         }
     }
 

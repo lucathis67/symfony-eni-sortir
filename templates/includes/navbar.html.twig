@@ -1,7 +1,7 @@
 {# <nav class="header-nav"> #}
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
 
-    {% if app.user.administrateur %}
+    {% if app.user and app.user.administrateur %}
         <a href="#" title="Liste des villes">Villes</a>
         <a href="#" title="Liste des campus">Campus</a>
     {% endif %}
