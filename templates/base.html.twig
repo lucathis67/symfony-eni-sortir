@@ -14,28 +14,28 @@
         {% block extrastyles %}{% endblock %}
         {% block script %}{% endblock %}
     </head>
+    <body>
+        <div class="container">
 
-
-    <div class="container">
-
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="flash flash-{{ label }}">
-                    {{ message }}
-                </div>
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash flash-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-        <main>
-            <header>
-                {% block header %}
-                    {% include("includes/navbar.html.twig") %}
+            <main>
+                <header>
+                    {% block header %}
+                        {% include("includes/navbar.html.twig") %}
+                    {% endblock %}
+                </header>
+
+                {% block body %}
+
                 {% endblock %}
-            </header>
 
-            {% block body %}
-
-            {% endblock %}
-
-        </main>
-    </div>
+            </main>
+        </div>
+    </body>
 </html>
