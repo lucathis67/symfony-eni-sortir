@@ -3,11 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
-use App\Form\SortieFilterType;
 use App\Form\SortieType;
 use App\Manager\SortieManager;
-use App\Repository\CampusRepository;
-use App\Repository\EtatRepository;
 use App\Data\SearchData;
 use App\Form\SearchDataType;
 use App\Repository\SortieRepository;

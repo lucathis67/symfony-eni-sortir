@@ -1,6 +1,32 @@
+/********************************************/
+/**
+ *  Styles globaux
+ */
+
 * {
     margin: 0;
     box-sizing: border-box;
+}
+
+.container {
+    width: 70%;
+    margin-top: 2rem;
+}
+
+.header-container {
+    margin-bottom: 5em;
+}
+
+.navbar {
+    width: 100%;
+    padding-left: 15%;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+
+a, .nav-link {
+    color: #0069c0;
 }
 
 
@@ -13,6 +39,9 @@
     display: block;
     position: sticky;
     top: 2em;
+    font-size: 0.9rem;
+    line-height: 1;
+    color: dimgray;
 }
 
 
@@ -21,7 +50,11 @@
  *  Liste Flitrée Des Sorties
  */
 
-
+#listeDesSorties .card {
+    margin-bottom: 1em;
+    border: none;
+    background-color: rgba(255, 248, 240, 0.85);
+}
 
 /********************************************/
 /**
