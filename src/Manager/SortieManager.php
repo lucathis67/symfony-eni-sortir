@@ -29,13 +29,18 @@ class SortieManager
         $this->etatRepository = $etatRepository;
     }
 
-
-    public function create(Sortie $sortie, bool $publish)
+    public function createOrUpdate(Sortie $sortie, bool $publish)
     {
         $publish
             ? $sortie->setEtat($this->etatRepository->findOneBy(['libelle'=>'Ouverte']))
             : $sortie->setEtat($this->etatRepository->findOneBy(['libelle'=>'Créée']));
-        //dump($sortie);exit;
+        $this->em->persist($sortie);
+        $this->em->flush();
+    }
+
+    public function cancel(Sortie $sortie)
+    {
+        $sortie->setEtat($this->etatRepository->findOneBy(['libelle'=>'Annulée']));
         $this->em->persist($sortie);
         $this->em->flush();
     }

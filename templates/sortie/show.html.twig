@@ -62,6 +62,11 @@
             </div>
         </div>
         </article>
+        <div class="btn-sortie">
+            {% if sortie.organisateur == app.user %}
+                <div><a href="{{ path('sortie_update', {'id': sortie.id }) }}" class="btn btn-primary">Modifier</a></div>
+            {% endif %}
+        </div>
     </section>
 {% endblock %}
 

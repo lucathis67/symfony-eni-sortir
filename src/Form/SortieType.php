@@ -86,8 +86,18 @@ class SortieType extends AbstractType
                 'mapped' => false,
                 'disabled' => true
             ])
-            ->add('save', SubmitType::class, ['label' => 'Enregistrer'])
-            ->add('saveAndPublish', SubmitType::class, ['label' => 'Publier la sortie']);
+            ->add('save', SubmitType::class, [
+                'label' => 'Enregistrer',
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ]
+            ])
+            ->add('saveAndPublish', SubmitType::class, [
+                'label' => 'Publier la sortie',
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ]
+            ]);
 
             $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
             $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
@@ -141,7 +151,7 @@ class SortieType extends AbstractType
         $form = $event->getForm();
 
         // When you create a new sortie, the ville is always empty
-        $ville = $sortie->getLieu()?->getVille() ? $sortie->getLieu->getVille() : null;
+        $ville = $sortie->getLieu()?->getVille() ? $sortie->getLieu()->getVille() : null;
 
         $this->addElements($form, $ville);
     }
