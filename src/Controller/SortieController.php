@@ -7,7 +7,6 @@ use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SearchDataType;
 use App\Form\SortieCancelType;
-use App\Form\SortieFilterType;
 use App\Form\SortieType;
 use App\Manager\SortieManager;
 use App\Repository\SortieRepository;

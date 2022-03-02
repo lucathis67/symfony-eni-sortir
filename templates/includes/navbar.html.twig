@@ -6,9 +6,9 @@
         <a href="#" title="Liste des campus">Campus</a>
     {% endif %}
     <a class="nav-link" href="{{ path('sortie_list') }}" title="page d'accueil">Accueil</a>
-    <a class="nav-link" href="{{ path('participant_afficher') }}" title="Profil">Mon profil</a>
     {% if app.user %}
-        <a href="{{ path('app_logout') }}" title="Se déconnecter">Se déconnecter</a>
+                <a class="nav-link" href="{{ path('participant_afficher') }}" title="Profil">Mon profil</a>
+                <a class="nav-link" href="{{ path('app_logout') }}" title="Se déconnecter">Se déconnecter</a>
     {% else %}
         <a class="nav-link" href="{{ path('app_login') }}" title="Se connecter">Se connecter</a>
     {% endif %}

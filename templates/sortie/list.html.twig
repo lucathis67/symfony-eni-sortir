@@ -4,68 +4,39 @@
 
 {% block body %}
 
-    <div class="sorties-header">
-        <div>
-            Date du jour: {{ 'now'|format_date('full', locale='fr') }}
-        </div>
-        {% if app.user %}
-            <div>Participant: {{ app.user.prenom }} {{ app.user.nom }}.</div>
-        {% endif %}
-    </div>
+    <div class="row">
 
-    <div class="sorties-filter">
-        <h3>Flitrer les sorties</h3>
+        <div class="col-md-3" id="filtreSorties">
 
-        <div>
-            {{ form_start(sortieForm) }}
-            {{ form_widget(sortieForm) }}
-            <button type="submit" class="btn btn-primary w-100">Rechercher</button>
-            {{ form_end(sortieForm) }}
+            <div class="sorties-header">
+                <div>
+                    Date du jour: {{ 'now'|format_date('full', locale='fr') }}
+                </div>
+                {% if app.user %}
+                    <div>Participant: {{ app.user.prenom }} {{ app.user.nom }}.</div>
+                {% endif %}
+            </div>
+
+            <h3>Flitrer les sorties</h3>
+            <div class="filter">
+                {{ form_start(sortieForm) }}
+                {{ form_widget(sortieForm) }}
+                <button type="submit" class="btn btn-primary w-100">Rechercher</button>
+                {{ form_end(sortieForm) }}
+            </div>
         </div>
-    </div>
-    <div class="sorties-list">
-        <table>
-            <thead>
-            <tr>
-                <th>Nom de la sortie</th>
-                <th>Date de la sortie</th>
-                <th>Clôture</th>
-                <th>inscrits/places</th>
-                <th>État</th>
-                <th>Inscrit</th>
-                <th>Organisateur</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
+
+        <div class="col-md-9" id="listeDesSorties">
+            <a href="#"  id="creerSortieCard">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Créer une sortie</h5>
+                    </div>
+                </div>
+            </a>
             {% for sortie in sorties %}
-                <tr>
-                    <td>{{ sortie.nom }}</td>
-                    <td>{{ sortie.dateHeureDebut | format_datetime('full', 'short', locale='fr') }}</td>
-                    <td>{{ sortie.dateLimiteInscription | format_datetime('full', 'short', locale='fr') }}</td>
-                    <td>{{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</td>
-                    <td>{{ sortie.etat.libelle }}</td>
-                    <td></td>
-                    <td>{{ sortie.organisateur.prenom }}</td>
-                    <td>
-                        {% for participant in sortie.participants %}
-                            {% if participant.id == app.user.id %}<a>Se Désister</a>{% endif %}
-                        {% else %}
-                            <a>S'inscrire</a>
-                        {% endfor %}
-                        {% if sortie.organisateur == app.user %}
-                            <a href="{{ path('sortie_update', {'id': sortie.id}) }}">Modifier</a>
-                            <a href="#">Publier</a>
-                        {% endif %}
-                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
-                    </td>
-                </tr>
+                {% include 'sortie/_card.html.twig' with {sortie: sortie} %}
             {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-
-    <a href="{{ path('sortie_create') }}" class="btn btn-primary">Créer une sortie</a>
+        </div>
 
 {% endblock %}

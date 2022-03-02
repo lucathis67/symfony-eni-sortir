@@ -1,127 +1,59 @@
-body {
-    background: linear-gradient(#000000, #490606);
-    background-attachment: fixed;
-    color: #EEE;
-    font-family: 'Crimson Text', serif;
+/********************************************/
+/**
+ *  Styles globaux
+ */
+
+* {
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 5px;
+    width: 70%;
+    margin-top: 2rem;
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
+.header-container {
+    margin-bottom: 5em;
 }
 
-a:hover {
-    color: #BC956B;
+.navbar {
+    width: 100%;
+    padding-left: 15%;
+    position: fixed;
+    top: 0;
+    z-index: 2;
 }
 
-img {
-    max-width: 100%;
+a, .nav-link {
+    color: #0069c0;
 }
 
-body > .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
 
-header img {
-    height: 70px;
-}
-
-main {
-    flex: 1;
-}
-
-nav ul {
-    display: flex;
-    list-style: none;
-    padding-left: 0;
-}
-
-nav li {
-    margin-right: 1rem;
-}
-
-header nav a:hover{
-    text-decoration: underline;
-}
-.header-nav{
-    display:flex;
-}
-
-header{
-    background-color: #a46a1f;
-    padding: 1rem 0;
-
-}
-
-.image-participant {
-  display: grid;
-
-   float: left;
-    margin-right: 2rem;
-
-}
-.participant-infos > div {
-
-    margin-bottom: 1rem;
-}
-@media screen and (min-width: 700px) {
-    .participant-infos {
-        grid-template-columns: 300px 1fr;
-    }
-}
-
-label {
-    display: block;
-}
-
-input,
-textarea,
-select {
-    margin-bottom: 1rem;
-    box-sizing: border-box;
-    width: 150px;
-    max-width: 50%;
-}
-
-.flash {
-    padding: 20px;
-    font-weight: bold;
-    font-size: 1.4rem;
-    margin: 1rem 0;
-    border-radius: 5px;
-}
-
-.flash-success {
-    background-color: lawngreen
-}
-
+/********************************************/
 /**
-PAGE LISTANT LES SORTIES
+ *  Flitre Des Sorties
  */
 
-table {
-    padding: 1em;
+#filtreSorties {
+    display: block;
+    position: sticky;
+    top: 2em;
+    font-size: 0.9rem;
+    line-height: 1;
+    color: dimgray;
 }
 
-thead tr {
-    background-color: grey;
-}
 
-tbody tr:nth-of-type(even) {
-    background-color: lightgrey;
-}
+/********************************************/
+/**
+ *  Liste Flitrée Des Sorties
+ */
 
-th, td {
-    padding: 0.5em;
-    border: 1px solid black;
+#listeDesSorties .card {
+    margin-bottom: 1em;
+    border: none;
+    background-color: rgba(255, 248, 240, 0.85);
 }
 
 /********************************************/
