@@ -54,10 +54,10 @@
                             <a>S'inscrire</a>
                         {% endfor %}
                         {% if sortie.organisateur == app.user %}
-                            <a href="#">Modifier</a>
+                            <a href="{{ path('sortie_update', {'id': sortie.id}) }}">Modifier</a>
                             <a href="#">Publier</a>
                         {% endif %}
-                        <a href="#">Afficher</a>
+                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -66,6 +66,6 @@
     </div>
 
 
-    <a href="#">Créer une sortie</a>
+    <a href="{{ path('sortie_create') }}" class="btn btn-primary">Créer une sortie</a>
 
 {% endblock %}

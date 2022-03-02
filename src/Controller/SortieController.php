@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
+use App\Entity\Participant;
 use App\Entity\Sortie;
+use App\Form\SearchDataType;
+use App\Form\SortieCancelType;
 use App\Form\SortieFilterType;
 use App\Form\SortieType;
 use App\Manager\SortieManager;
-use App\Repository\CampusRepository;
-use App\Repository\EtatRepository;
-use App\Data\SearchData;
-use App\Form\SearchDataType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +21,19 @@ use Symfony\Component\Uid\Uuid;
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
+    /**
+     * @var SortieManager
+     */
+    private $sortieManager;
+
+    /**
+     * @param SortieManager $sortieManager
+     */
+    public function __construct(SortieManager $sortieManager)
+    {
+        $this->sortieManager = $sortieManager;
+    }
+
     #[Route('', name: 'list')]
     public function list(Request $request, SortieRepository $sortieRepository): Response
     {
@@ -33,6 +46,7 @@ class SortieController extends AbstractController
             'sortieForm' => $form->createView()
         ]);
     }
+
     #[Route('/', name: 'inscription')]
     public function inscription(uuid $id, SortieRepository $sortieRepository, EntityManager $entityManager)
     {
@@ -65,8 +79,9 @@ class SortieController extends AbstractController
     }
 
     #[Route('/ajouter', name: 'create')]
-    public function create(Request $request, SortieManager $sortieManager): Response
+    public function create(Request $request): Response
     {
+        /** @var Participant $participant */
         $participant = $this->getUser();
         $sortie = new Sortie();
         $sortie->setOrganisateur($participant);
@@ -76,7 +91,7 @@ class SortieController extends AbstractController
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
-            $sortieManager->create($sortie, $sortieForm->get('saveAndPublish')->isClicked());
+            $this->sortieManager->createOrUpdate($sortie, $sortieForm->get('saveAndPublish')->isClicked());
 
             $this->addFlash('success', 'Sortie ajoutée ! ');
             return $this->redirectToRoute("sortie_show", ['id' => $sortie->getId()]);
@@ -89,5 +104,50 @@ class SortieController extends AbstractController
     public function show(Sortie $sortie): Response
     {
         return $this->render("sortie/show.html.twig", ['sortie' => $sortie]);
+    }
+
+    #[Route('/modifier/{id}', name: 'update')]
+    public function update(Sortie $sortie, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('edit', $sortie);
+
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            $this->sortieManager->createOrUpdate($sortie, $sortieForm->get('saveAndPublish')->isClicked());
+
+            $this->addFlash('success', 'Sortie mise à jour ! ');
+            return $this->redirectToRoute("sortie_show", ['id' => $sortie->getId()]);
+        }
+
+        return $this->render("sortie/update.html.twig",
+            [
+                'sortieForm' => $sortieForm->createView(),
+                'sortieId' => $sortie->getId()
+            ]);
+    }
+
+    #[Route('/annuler/{id}', name: 'cancel')]
+    public function cancel(Sortie $sortie, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('edit', $sortie);
+
+        $sortieCancelForm = $this->createForm(SortieCancelType::class, $sortie);
+        $sortieCancelForm->handleRequest($request);
+        if ($sortieCancelForm->isSubmitted() && $sortieCancelForm->isValid()) {
+
+            $this->sortieManager->cancel($sortie);
+
+            $this->addFlash('success', 'Sortie annulée ! ');
+            return $this->redirectToRoute("sortie_list");
+        }
+
+        return $this->render("sortie/cancel.html.twig",
+            [
+                'sortieCancelForm' => $sortieCancelForm->createView(),
+                'sortie' => $sortie
+            ]);
     }
 }
