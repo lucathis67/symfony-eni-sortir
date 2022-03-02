@@ -6,34 +6,27 @@
 
     <div class="row">
 
-        <div class="col-md-3" id="filtreSorties">
-
-            <div class="sorties-header">
-                <div>
+        <div class="col-md-4" id="filtreSorties">
+            <div class="filter">
+                <div class="text-muted">
                     Date du jour: {{ 'now'|format_date('full', locale='fr') }}
                 </div>
                 {% if app.user %}
-                    <div>Participant: {{ app.user.prenom }} {{ app.user.nom }}.</div>
+                    <div class="text-muted">Participant: {{ app.user.prenom }} {{ app.user.nom }}.</div>
                 {% endif %}
-            </div>
-
-            <h3>Flitrer les sorties</h3>
-            <div class="filter">
-                {{ form_start(sortieForm) }}
+                <h4>Filtrer les sorties</h4>
+                {{ form_start(sortieForm, {'attr': {'class': 'text-muted'}}) }}
                 {{ form_widget(sortieForm) }}
                 <button type="submit" class="btn btn-primary w-100">Rechercher</button>
                 {{ form_end(sortieForm) }}
+                {% if app.user %}
+                    <a href="{{ path('sortie_create') }}" class="btn btn-primary w-100">Créer une sortie</a>
+                {% endif %}
+
             </div>
         </div>
 
-        <div class="col-md-9" id="listeDesSorties">
-            <a href="#"  id="creerSortieCard">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Créer une sortie</h5>
-                    </div>
-                </div>
-            </a>
+        <div class="col-md-8" id="listeDesSorties">
             {% for sortie in sorties %}
                 {% include 'sortie/_card.html.twig' with {sortie: sortie} %}
             {% endfor %}

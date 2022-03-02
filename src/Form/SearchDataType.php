@@ -19,9 +19,6 @@ class SearchDataType extends AbstractType
     {
         $builder
             ->add('contient', SearchType::class, [
-                'attr' => [
-                    'placeholder' => 'contient'
-                ],
                 'required' => false,
             ])
             ->add('campus', EntityType::class, [

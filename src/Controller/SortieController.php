@@ -49,7 +49,6 @@ class SortieController extends AbstractController
     #[Route('/', name: 'inscription')]
     public function inscription(uuid $id, SortieRepository $sortieRepository, EntityManager $entityManager)
     {
-        dd($id);
         $sortie = $sortieRepository->find($id);
 
         $dateDebutSortie = $sortie->getDateHeureDebut();

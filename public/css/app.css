@@ -3,31 +3,62 @@
  *  Styles globaux
  */
 
+:root {
+    --highlight-font: 'Lora', serif;
+
+    --primary-color: black;
+    --highlight-color: #00317e;
+    --primary-background-color: white;
+    --highlight-background-color: #FFF8F0FF;
+}
+
 * {
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    font-size: 16px;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover:not(.btn) {
+    opacity: 0.7;
+}
+
 .container {
-    width: 70%;
-    margin-top: 2rem;
+    width: 60%;
+    margin-top: 5rem;
+    padding: 0;
 }
 
 .header-container {
-    margin-bottom: 5em;
-}
-
-.navbar {
-    width: 100%;
-    padding-left: 15%;
+    width: 60%;
     position: fixed;
     top: 0;
+    left: 20%;
     z-index: 2;
+    background-color: var(--primary-background-color);
+    border-bottom: 4px solid var(--highlight-color);
 }
 
-a, .nav-link {
-    color: #0069c0;
+.nav-link {
+    color: var(--highlight-color);
+    text-decoration: none;
 }
+ .nav-link:hover {
+     opacity: 0.7;
+ }
+
+ .btn {
+     background-color: var(--highlight-color);
+     border: none;
+ }
+
 
 
 /********************************************/
@@ -37,24 +68,55 @@ a, .nav-link {
 
 #filtreSorties {
     display: block;
-    position: sticky;
-    top: 2em;
+    top: 6rem;
     font-size: 0.9rem;
     line-height: 1;
-    color: dimgray;
 }
 
+#filtreSorties .filter {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5rem;
+}
+
+#filtreSorties .filter div,
+#filtreSorties .filter form {
+    margin-bottom: 1rem;
+}
 
 /********************************************/
 /**
  *  Liste Flitrée Des Sorties
  */
 
+#listeDesSorties {
+    display: block;
+}
+
 #listeDesSorties .card {
     margin-bottom: 1em;
     border: none;
-    background-color: rgba(255, 248, 240, 0.85);
+    background-color: var(--highlight-background-color);
 }
+
+#listeDesSorties .card h5 {
+    font-family: var(--highlight-font);
+    font-style: italic;
+    font-size: 1.4em;
+}
+
+#listeDesSorties .card .info {
+    color: var(--primary-color);
+    font-size: 0.8em;
+    line-height: 1;
+}
+
+#creerSortieCard {
+    position: sticky;
+    top: 5rem;
+    z-index: 2;
+}
+
 
 /********************************************/
 /**

@@ -1,22 +1,21 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">{{ sortie.nom }}</h5>
-        <p class="card-title">{{ sortie.dateHeureDebut | format_datetime('full', 'short', locale='fr') }}</p>
-        <p class="card-title">{{ sortie.dateLimiteInscription | format_datetime('full', 'short', locale='fr') }}</p>
-        <p class="text text-muted">{{ sortie.infosSortie }}</p>
-        <p>{{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</p>
-        <p>{{ sortie.organisateur.prenom }}</p>
+        <p class="text-muted">{{ sortie.infosSortie }}</p>
+        <p class="info">Organisée par : {{ sortie.organisateur.prenom | title }}, le {{ sortie.dateHeureDebut | format_datetime('full', 'short', locale='fr') }}</p>
+        <p class="info">Nombre de participants : {{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</p>
+        <p class="info">Date Limite d'Inscription : {{ sortie.dateLimiteInscription | format_datetime('full', 'short', locale='fr') }}</p>
         <div>
             {% for participant in sortie.participants %}
                 {% if participant.id == app.user.id %}<a>Se Désister</a>{% endif %}
             {% else %}
-                <a href="#">S'inscrire</a>
+                <a href="{{ path('sortie_inscription') }}">S'inscrire</a>
             {% endfor %}
             {% if sortie.organisateur == app.user %}
-                <a href="#">Modifier</a>
+                <a href="{{ path('sortie_update', {id: sortie.id}) }}">Modifier</a>
                 <a href="#">Publier</a>
             {% endif %}
-            <a href="#">Afficher</a>
+            <a href="{{ path('sortie_show', {id: sortie.id}) }}">Afficher</a>
         </div>
     </div>
 </div>

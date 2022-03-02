@@ -1,9 +1,9 @@
 {# <nav class="header-nav"> #}
-<nav class="navbar navbar-expand-sm navbar-light bg-light">
+<nav class="navbar navbar-expand-sm navbar-light">
 
     {% if app.user and app.user.administrateur %}
-        <a href="#" title="Liste des villes">Villes</a>
-        <a href="#" title="Liste des campus">Campus</a>
+        <a class="nav-link" href="#" title="Liste des villes">Villes</a>
+        <a class="nav-link" href="#" title="Liste des campus">Campus</a>
     {% endif %}
     <a class="nav-link" href="{{ path('sortie_list') }}" title="page d'accueil">Accueil</a>
     {% if app.user %}
@@ -12,6 +12,5 @@
     {% else %}
         <a class="nav-link" href="{{ path('app_login') }}" title="Se connecter">Se connecter</a>
     {% endif %}
-
 
 </nav>
