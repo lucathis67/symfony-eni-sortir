@@ -3,27 +3,36 @@
 {% block title %}Gestion du profil{% endblock %}
 
 {% block body %}
-
-    <div>
-        <h1>Modification de mon profil</h1>
-    </div>
-
-    <div class="image-participant">
+    <form action="{{ path('uploadFile') }}" method="post" enctype="multipart/form-data">
         <div>
-            <img src="{{ asset("img/photo3.png") }}" alt="{{ participant.pseudo }}">
+            <h1>Modification de mon profil</h1>
         </div>
-    </div>
-    <div class="participant-infos">
-        {{ form_start(participantForm, {'attr': {'id': 'modifProfil'}}) }}
-        <input type="hidden" name="id"
-               value="{{ participant.id }}"
-        >
 
-        {{ form_widget(participantForm) }}
+        <div class="image-participant">
+            <div>
+                <img src="{{ asset("img/photo3.png") }}" alt="{{ participant.pseudo }}">
+            </div>
+        </div>
+        <div class="participant-infos">
+            {{ form_start(participantForm, {'attr': {'id': 'modifProfil'}}) }}
+            <input type="hidden" name="id"
+                   value="{{ participant.id }}"
+            >
 
-        <button type="submit" class="btn">Enregistrer</button>
-        <button type="reset" class="btn">Annuler</button>
-        {{ form_end(participantForm) }}
-    </div>
+            {{ form_widget(participantForm) }}
 
+
+            <input type="hidden" name="token" value="{{ csrf_token('upload') }}"/>
+
+            <div>
+                <label for="myfile">File to upload:</label>
+                <input type="file" name="myfile" id="myfile">
+            </div>
+
+
+            <button type="submit" class="btn">Enregistrer</button>
+            <button type="reset" class="btn">Annuler</button>
+            {{ form_end(participantForm) }}
+        </div>
+    </form>
 {% endblock %}

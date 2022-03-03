@@ -17,15 +17,11 @@ class ParticipantController extends AbstractController
 {
     #[Route('/participant/modifierProfil', name: 'participant_modifier')]
     public function modifier(
-        ParticipantRepository       $participantRepository,
         Request                     $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        UserAuthenticatorInterface  $userAuthenticator,
-        AppAuthenticator            $authenticator,
         EntityManagerInterface      $entityManager): Response
     {
         $participant = $this->getUser();
-        //$participant = $participantRepository->find($id);
         if ($participant != null) {
             $form = $this->createForm(ParticipantFormType::class, $participant);
             $form->handleRequest($request);
@@ -44,12 +40,6 @@ class ParticipantController extends AbstractController
                 $this->addFlash('success', 'Profil modifié!!');
 
                 return $this->redirectToRoute("participant_afficher");
-//                return $userAuthenticator->authenticateUser(
-//                    $participant,
-//                    $authenticator,
-//                    $request
-//                );
-
             }
 
             return $this->render('participant/profil.html.twig', [
@@ -64,13 +54,12 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/participant', name: 'participant_afficher')]
-    public function afficher( ParticipantRepository $participantRepository)
+    public function afficher(ParticipantRepository $participantRepository)
     {
-        $participant = $this->getUser();//$participantRepository->find($id);
+        $participant = $this->getUser();
 
         if ($participant != null) {
             return $this->render('participant/afficher.html.twig', ["participant" => $participant]);
         }
-
     }
 }

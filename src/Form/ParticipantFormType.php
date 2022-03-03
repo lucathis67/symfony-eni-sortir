@@ -72,12 +72,14 @@ class ParticipantFormType extends AbstractType
                 'choice_label' => 'nom'
             ])
             ->add('upload_file', FileType::class, [
-                'label' => 'Uploader une photo',
+                'label' => 'Uploader une photo (jpg,jpeg,png,bmp,gif)',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File([
+                        'maxSize'=>'8192k',
                         'mimeTypes' => [
+                            'image/jpg',
                             'image/jpeg',
                             'image/png',
                             'image/bmp',
