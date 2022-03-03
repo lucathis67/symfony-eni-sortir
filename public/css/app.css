@@ -59,7 +59,14 @@ a:hover:not(.btn) {
      border: none;
  }
 
+.btn-sortie {
+    text-align: center;
+}
 
+.btn-sortie div  {
+    display: inline-block;
+    width: 200px;
+}
 
 /********************************************/
 /**
@@ -141,15 +148,6 @@ a:hover:not(.btn) {
     width: 200px;
 }
 
-.btn-sortie
-{
-    text-align: center;
-}
-
-.btn-sortie div  {
-    display: inline-block;
-    width: 200px;
-}
 
 /********************************************/
 /**
