@@ -4,77 +4,32 @@
 
 {% block body %}
 
-    <div class="sorties-header">
-        <div>
-            Date du jour: {{ 'now'|format_date('full', locale='fr') }}
-        </div>
-        {% if app.user %}
-            <div>Participant: {{ app.user.prenom }} {{ app.user.nom }}.</div>
-        {% endif %}
-    </div>
+    <div class="row">
 
-    <div class="sorties-filter">
-        <h3>Flitrer les sorties</h3>
+        <div class="col-md-4" id="filtreSorties">
+            <div class="filter">
+                <div class="text-muted">
+                    Date du jour: {{ 'now'|format_date('full', locale='fr') }}
+                </div>
+                {% if app.user %}
+                    <div class="text-muted">Participant: {{ app.user.prenom }} {{ app.user.nom }}.</div>
+                {% endif %}
+                <h4>Filtrer les sorties</h4>
+                {{ form_start(sortieForm, {'attr': {'class': 'text-muted'}}) }}
+                {{ form_widget(sortieForm) }}
+                <button type="submit" class="btn btn-primary w-100">Rechercher</button>
+                {{ form_end(sortieForm) }}
+                {% if app.user %}
+                    <a href="{{ path('sortie_create') }}" class="btn btn-primary w-100">Créer une sortie</a>
+                {% endif %}
 
-        <div>
-            {{ form_start(sortieForm) }}
-            {{ form_widget(sortieForm) }}
-            <button type="submit" class="btn btn-primary w-100">Rechercher</button>
-            {{ form_end(sortieForm) }}
+            </div>
         </div>
-    </div>
-    <div class="sorties-list">
-        <table>
-            <thead>
-            <tr>
-                <th>Nom de la sortie</th>
-                <th>Date de la sortie</th>
-                <th>Clôture</th>
-                <th>inscrits/places</th>
-                <th>État</th>
-                <th>Inscrit</th>
-                <th>Organisateur</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
+
+        <div class="col-md-8" id="listeDesSorties">
             {% for sortie in sorties %}
-                <tr>
-                    <td>{{ sortie.nom }}</td>
-                    <td>{{ sortie.dateHeureDebut | format_datetime('full', 'short', locale='fr') }}</td>
-                    <td>{{ sortie.dateLimiteInscription | format_datetime('full', 'short', locale='fr') }}</td>
-                    <td>{{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</td>
-                    <td>{{ sortie.etat.libelle }}</td>
-                    <td>
-                        {% if sortie.participants.contains(app.user) %}
-                            &#x2705
-                        {% endif %}
-                    </td>
-{#                    <td>{{ sortie.organisateur.prenom }}</td>#}
-                    <td>
-                        <a href="{{ path('participant_afficher',{'id':sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }}</a>
-                    </td>
-                    <td>
-{#                        {% for participant in sortie.participants %}#}
-                            {% if sortie.participants.contains(app.user) %}
-                                <a href="{{ path('sortie_desinscription',{'id':sortie.id}) }}">Se désister</a>
-                            {% else %}
-                                <a href="{{ path('sortie_inscription',{'id':sortie.id}) }}">S'inscrire</a>
-                            {% endif %}
-{#                        {% endfor %}#}
-                        {% if sortie.organisateur == app.user %}
-                            <a href="#">Modifier</a>
-                            <a href="#">Publier</a>
-                        {% endif %}
-                        <a href="#">Afficher</a>
-                    </td>
-                </tr>
+                {% include 'sortie/_card.html.twig' with {sortie: sortie} %}
             {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-
-    <a href="#">Créer une sortie</a>
+        </div>
 
 {% endblock %}

@@ -7,8 +7,6 @@ use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Uid\Uuid;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -30,11 +28,13 @@ class SortieRepository extends ServiceEntityRepository
      */
     public function findUsingFilter(SearchData $searchData, null|Participant $user): array
     {
+
         $queryBuilder = $this
             ->createQueryBuilder('sortie')
             ->select('sortie', 'campus', 'organisateur')
             ->join('sortie.campus', 'campus')
-            ->join('sortie.organisateur', 'organisateur');
+            ->join('sortie.organisateur', 'organisateur')
+        ;
 
         if (!empty($searchData->contient)) {
             $queryBuilder = $queryBuilder
@@ -82,10 +82,12 @@ class SortieRepository extends ServiceEntityRepository
             $queryBuilder = $queryBuilder
                 ->andWhere('sortie.dateHeureDebut <= :today')
                 ->setParameter('today', new \DateTime());
+        } else {
+            $queryBuilder = $queryBuilder
+                ->andWhere('sortie.dateHeureDebut >= :limite')
+                ->setParameter('limite', new \DateTime('- 30 days'));
         }
 
         return $queryBuilder->getQuery()->getResult();
     }
-
-
 }

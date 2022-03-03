@@ -1,160 +1,153 @@
-body {
-    background: linear-gradient(#000000, #490606);
-    background-attachment: fixed;
-    color: #EEE;
-    font-family: 'Crimson Text', serif;
+/********************************************/
+/**
+ *  Styles globaux
+ */
+
+:root {
+    --highlight-font: 'Lora', serif;
+
+    --primary-color: black;
+    --highlight-color: #00317e;
+    --primary-background-color: white;
+    --highlight-background-color: #FFF8F0FF;
 }
 
-.container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 5px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-a {
-    color: inherit;
+html {
+    font-size: 16px;
+}
+
+a:link {
     text-decoration: none;
 }
 
-a:hover {
-    color: #BC956B;
+a:hover:not(.btn) {
+    opacity: 0.7;
 }
 
-img {
-    max-width: 100%;
+.container {
+    width: 60%;
+    margin-top: 5rem;
+    padding: 0;
 }
 
-body > .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+.header-container {
+    width: 60%;
+    position: fixed;
+    top: 0;
+    left: 20%;
+    z-index: 2;
+    background-color: var(--primary-background-color);
+    border-bottom: 4px solid var(--highlight-color);
 }
 
-header img {
-    height: 70px;
+.nav-link {
+    color: var(--highlight-color);
+    text-decoration: none;
+}
+ .nav-link:hover {
+     opacity: 0.7;
+ }
+
+ .btn {
+     background-color: var(--highlight-color);
+     border: none;
+ }
+
+.btn-sortie {
+    text-align: center;
 }
 
-main {
-    flex: 1;
+.btn-sortie div  {
+    display: inline-block;
+    width: 200px;
 }
 
-nav ul {
-    display: flex;
-    list-style: none;
-    padding-left: 0;
+/********************************************/
+/**
+ *  Flitre Des Sorties
+ */
+
+#filtreSorties {
+    display: block;
+    top: 6rem;
+    font-size: 0.9rem;
+    line-height: 1;
 }
 
-nav li {
-    margin-right: 1rem;
+#filtreSorties .filter {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5rem;
 }
 
-header nav a:hover{
-    text-decoration: underline;
-}
-.header-nav{
-    display:flex;
-}
-
-header{
-    background-color: #a46a1f;
-    padding: 1rem 0;
-
-}
-
-.image-participant {
-  display: grid;
-
-   float: left;
-    margin-right: 2rem;
-
-}
-.participant-infos > div {
-
+#filtreSorties .filter div,
+#filtreSorties .filter form {
     margin-bottom: 1rem;
 }
-@media screen and (min-width: 700px) {
-    .participant-infos {
-        grid-template-columns: 300px 1fr;
-    }
-}
 
-label {
+/********************************************/
+/**
+ *  Liste Flitrée Des Sorties
+ */
+
+#listeDesSorties {
     display: block;
 }
 
-input,
-textarea,
-select {
-    margin-bottom: 1rem;
-    box-sizing: border-box;
-    width: 150px;
-    max-width: 50%;
+#listeDesSorties .card {
+    margin-bottom: 1em;
+    border: none;
+    background-color: var(--highlight-background-color);
 }
 
-.flash {
-    padding: 20px;
-    font-weight: bold;
-    font-size: 1.4rem;
-    margin: 1rem 0;
-    border-radius: 5px;
+#listeDesSorties .card h5 {
+    font-family: var(--highlight-font);
+    font-style: italic;
+    font-size: 1.4em;
 }
 
-.flash-success {
-    background-color: darkgreen;
+#listeDesSorties .card .info {
+    color: var(--primary-color);
+    font-size: 0.8em;
+    line-height: 1;
 }
 
-.flash-fail {
-    background-color: darkred;
+#creerSortieCard {
+    position: sticky;
+    top: 5rem;
+    z-index: 2;
 }
 
-/**
-PAGE LISTANT LES SORTIES
- */
-
-table {
-    padding: 1em;
-}
-
-thead tr {
-    background-color: grey;
-}
-
-tbody tr:nth-of-type(even) {
-    background-color: lightgrey;
-}
-
-th, td {
-    padding: 0.5em;
-    border: 1px solid black;
-}
 
 /********************************************/
 /**
  *  DEBUT Créer une sortie
  */
 
-#creerSortie h1 {
+#formSortie h1 {
     text-align: center;
     font-size: 35px;
 }
 
-#creerSortie form {
+#formSortie form {
     text-align: center;
 }
 
-#creerSortie form .div-input {
+#formSortie form .div-input {
     display: inline-block;
     width: 300px;
 }
 
-#creerSortie form div input{
+#formSortie form div input{
     width: 200px;
 }
 
-#creerSortie .btn-form div {
-    display: inline-block;
-    width: 200px;
-}
 
 /********************************************/
 /**
@@ -172,10 +165,15 @@ th, td {
     vertical-align: top;
 }
 
-#afficherSortie .div-span div {
+#afficherSortie .div-span>div {
     margin: 10px;
     padding: 10px;
     width: 500px;
+}
+
+#afficherSortie textarea {
+    width: 240px;
+    height: 150px;
 }
 
 /********************************************/

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="{{ asset('js/scriptSortieLieux.js') }}"></script>
+{% endblock %}
+{% block body %}
+<section id="formSortie">
+    <h1>Modifier la sortie</h1>
+    {{ form_start(sortieForm) }}
+
+    <div class="div-input">
+        {{ form_row(sortieForm.nom) }}
+        {{ form_row(sortieForm.dateHeureDebut) }}
+        {{ form_row(sortieForm.dateLimiteInscription) }}
+        {{ form_row(sortieForm.duree, { 'type':'number' }) }}
+        {{ form_row(sortieForm.nbInscriptionsMax, { 'type':'number' }) }}
+        {{ form_row(sortieForm.infosSortie) }}
+    </div>
+    <div class="div-input">
+        {{ form_row(sortieForm.campus) }}
+        {{ form_row(sortieForm.ville) }}
+        {{ form_row(sortieForm.lieu) }}
+        {{ form_row(sortieForm.rue) }}
+        {{ form_row(sortieForm.codePostal) }}
+        {{ form_row(sortieForm.latitude) }}
+        {{ form_row(sortieForm.longitude) }}
+    </div>
+
+    <div class="btn-sortie">
+        {{ form_row(sortieForm.save) }}
+        {{ form_row(sortieForm.saveAndPublish) }}
+        <div><a href="{{ path('sortie_cancel', {'id': sortieId}) }}" class="btn btn-primary">Supprimer</a></div>
+        <div><a href="{{ path('sortie_list') }}" class="btn btn-primary">Annuler</a></div>
+    </div>
+
+    {{ form_end(sortieForm) }}
+</section>
+{% endblock %}
+
+{% block title %}
+{{ parent() }} | Modifier une sortie
+{% endblock %}
