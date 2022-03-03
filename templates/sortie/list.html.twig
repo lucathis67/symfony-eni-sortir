@@ -22,7 +22,6 @@
                 {% if app.user %}
                     <a href="{{ path('sortie_create') }}" class="btn btn-primary w-100">Créer une sortie</a>
                 {% endif %}
-
             </div>
         </div>
 
@@ -31,5 +30,7 @@
                 {% include 'sortie/_card.html.twig' with {sortie: sortie} %}
             {% endfor %}
         </div>
+
+    </div>
 
 {% endblock %}

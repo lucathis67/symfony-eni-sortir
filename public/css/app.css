@@ -7,6 +7,7 @@
     --highlight-font: 'Lora', serif;
 
     --primary-color: black;
+    --secondary-color: dimgray;
     --highlight-color: #00317e;
     --primary-background-color: white;
     --highlight-background-color: #FFF8F0FF;
@@ -46,10 +47,28 @@ a:hover:not(.btn) {
     border-bottom: 4px solid var(--highlight-color);
 }
 
+.fixed-header {
+    display: flex;
+    flex-direction: row;
+}
+
+.main-title {
+    font-family: var(--highlight-font);
+    font-style: italic;
+    color: var(--highlight-color);
+}
+
+.main-title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
 .nav-link {
     color: var(--highlight-color);
     text-decoration: none;
 }
+
  .nav-link:hover {
      opacity: 0.7;
  }
@@ -66,6 +85,71 @@ a:hover:not(.btn) {
 .btn-sortie div  {
     display: inline-block;
     width: 200px;
+}
+
+/********************************************/
+/**
+ *  DEBUT Afficher un participant
+ */
+
+#participant-container {
+    margin: 0;
+}
+
+#participant-container .image-participant {
+    padding: 0;
+}
+
+#participant-container img {
+    max-width: 100%;
+}
+
+#participant-container h1 {
+    font-family: var(--highlight-font);
+    font-style: italic;
+}
+
+#participant-container .infos-participant {
+    background-color: var(--highlight-background-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#participant-container .btn-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+#participant-container .btn-container a {
+    padding-left: 2em;
+    display: block;
+}
+
+/********************************************/
+/**
+ *  Modifier un profile
+ */
+
+#profileModifier {
+    padding: 2rem;
+    background-color: var(--highlight-background-color);
+}
+
+#profileModifier h2 {
+    font-family: var(--highlight-font);
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+#profileModifier .profile-container img {
+    max-width: 100%;
+}
+
+#profileModifier label {
+    color: var(--secondary-color);
 }
 
 /********************************************/
@@ -118,6 +202,16 @@ a:hover:not(.btn) {
     line-height: 1;
 }
 
+#listeDesSorties .card-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+#listeDesSorties .card-links a {
+    margin-left: 1em;
+}
+
 #creerSortieCard {
     position: sticky;
     top: 5rem;
@@ -130,22 +224,36 @@ a:hover:not(.btn) {
  *  DEBUT Créer une sortie
  */
 
+#formSortie {
+    background-color: var(--highlight-background-color);
+    font-size: 0.9rem;
+}
+
 #formSortie h1 {
     text-align: center;
-    font-size: 35px;
+    font-size: 2em;
+    font-family: var(--highlight-font);
+    font-style: italic;
+    padding-top: 2em;
+    margin-bottom: 2em;
 }
 
 #formSortie form {
     text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 #formSortie form .div-input {
-    display: inline-block;
-    width: 300px;
+    margin-bottom: 2em;
 }
 
-#formSortie form div input{
-    width: 200px;
+#formSortie form .btn-sortie {
+    flex: 1;
+    min-width: 100%;
+    margin-bottom: 2em;
 }
 
 
@@ -153,27 +261,45 @@ a:hover:not(.btn) {
 /**
  *  DEBUT Afficher une sortie
  */
+
+#afficherSortie {
+    background-color: var(--highlight-background-color);
+    font-size: 0.9rem;
+    padding: 2em;
+}
 #afficherSortie h1 {
     text-align: center;
-    font-size: 35px;
+    font-size: 2em;
+    font-family: var(--highlight-font);
+    font-style: italic;
+    margin-bottom: 2em;
 }
 
 #afficherSortie .div-span {
-    display: inline-block;
-    width: 300px;
-    margin: 0 6%;
-    vertical-align: top;
+    display: flex;
+    flex-direction: column;
 }
 
-#afficherSortie .div-span>div {
-    margin: 10px;
-    padding: 10px;
-    width: 500px;
+#afficherSortie .div-span div {
+    display: flex;
+    flex-direction: column;
 }
 
-#afficherSortie textarea {
-    width: 240px;
-    height: 150px;
+#afficherSortie .div-span span {
+    flex: 1;
+    text-align: center;
 }
+
+#afficherSortie .div-span span:nth-child(1){
+    color: var(--secondary-color);
+}
+
+#afficherSortie .div-span span:nth-child(2) {
+    padding: 0.5em;
+    background-color: var(--primary-background-color);
+    border-radius: 0.5em;
+    margin-bottom: 1em;
+}
+
 
 /********************************************/

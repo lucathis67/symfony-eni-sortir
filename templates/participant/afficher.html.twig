@@ -1,33 +1,43 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{ participant.pseudo }}</h1>
-    <div class="image-participant">
-        <div>
-            <img src="{{ asset("img/photo3.png") }}" alt="{{ participant.pseudo }}">
+
+    <div id="participant-container" class="row">
+
+        <div class="image-participant col-md-4">
+            <div>
+                <img src="{{ asset("img/photo3.png") }}" alt="{{ participant.pseudo }}">
+            </div>
         </div>
-    </div>
-    <div>
-        <label for="prenom">Prénom : {{ participant.prenom }}</label>
-    </div>
-    <div>
-        <label for="nom">Nom : {{ participant.nom }}</label>
-    </div>
-    <div>
-        <label for="telephone">Téléphone : {{ participant.telephone }}</label>
-    </div>
-    <div>
-        <label for="">Email : {{ participant.email }}</label>
-    </div>
-    <div>
-        <label for="">Campus : {{ participant.campus.nom }}</label>
+
+        <div class="infos-participant col-md-8">
+            <h1>{{ participant.pseudo | title }}</h1>
+            <div>
+                <label for="prenom">Prénom : {{ participant.prenom }}</label>
+            </div>
+            <div>
+                <label for="nom">Nom : {{ participant.nom }}</label>
+            </div>
+            <div>
+                <label for="telephone">Téléphone : {{ participant.telephone }}</label>
+            </div>
+            <div>
+                <label for="">Email : {{ participant.email }}</label>
+            </div>
+            <div>
+                <label for="">Campus : {{ participant.campus.nom }}</label>
+            </div>
+
+            <div class="btn-container">
+                <a href="{{ path("participant_modifier") }}">Modifier</a>
+
+                <a href="#" type="button">Retour</a>
+            </div>
+        </div>
+
     </div>
 
-    <a href="{{ path("participant_modifier") }}">
-        <button type="button" class="btn">Modifier</button>
-    </a>
 
-    <button type="button" class="btn">Retour</button>
 
 
 {% endblock %}
