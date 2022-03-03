@@ -45,14 +45,23 @@
                     <td>{{ sortie.dateLimiteInscription | format_datetime('full', 'short', locale='fr') }}</td>
                     <td>{{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
-                    <td></td>
-                    <td>{{ sortie.organisateur.prenom }}</td>
                     <td>
-                        {% for participant in sortie.participants %}
-                            {% if participant.id == app.user.id %}<a>Se Désister</a>{% endif %}
-                        {% else %}
-                            <a>S'inscrire</a>
-                        {% endfor %}
+                        {% if sortie.participants.contains(app.user) %}
+                            &#x2705
+                        {% endif %}
+                    </td>
+{#                    <td>{{ sortie.organisateur.prenom }}</td>#}
+                    <td>
+                        <a href="{{ path('participant_afficher',{'id':sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }}</a>
+                    </td>
+                    <td>
+{#                        {% for participant in sortie.participants %}#}
+                            {% if sortie.participants.contains(app.user) %}
+                                <a href="{{ path('sortie_desinscription',{'id':sortie.id}) }}">Se désister</a>
+                            {% else %}
+                                <a href="{{ path('sortie_inscription',{'id':sortie.id}) }}">S'inscrire</a>
+                            {% endif %}
+{#                        {% endfor %}#}
                         {% if sortie.organisateur == app.user %}
                             <a href="#">Modifier</a>
                             <a href="#">Publier</a>

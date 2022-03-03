@@ -100,7 +100,11 @@ select {
 }
 
 .flash-success {
-    background-color: lawngreen
+    background-color: darkgreen;
+}
+
+.flash-fail {
+    background-color: darkred;
 }
 
 /**
