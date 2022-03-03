@@ -5,7 +5,7 @@
         <p class="info">Organisée par : {{ sortie.organisateur.prenom | title }}, le {{ sortie.dateHeureDebut | format_datetime('full', 'short', locale='fr') }}</p>
         <p class="info">Nombre de participants : {{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</p>
         <p class="info">Date Limite d'Inscription : {{ sortie.dateLimiteInscription | format_datetime('full', 'short', locale='fr') }}</p>
-        <div>
+        <div class="card-links">
             {% for participant in sortie.participants %}
                 {% if participant.id == app.user.id %}<a>Se Désister</a>{% endif %}
             {% else %}

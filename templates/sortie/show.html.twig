@@ -4,19 +4,19 @@
     <section id="afficherSortie">
         <h1>Détail de la sortie</h1>
 
-        <article>
-            <div class="div-span">
+        <article class="row">
+            <div class="div-span col-md-6">
                 <div>
                     <span>Nom de la sortie :</span>
                     <span>{{ sortie.nom }}</span>
                 </div>
                 <div>
                     <span>Date et heure de la sortie :</span>
-                    <span>{{ sortie.dateHeureDebut | date("Y-m-d") }}</span>
+                    <span>{{ sortie.dateHeureDebut | format_datetime('full', 'short', locale='fr') }}</span>
                 </div>
                 <div>
                     <span>Date limite d'inscription :</span>
-                    <span>{{ sortie.dateLimiteInscription | date("Y-m-d") }}</span>
+                    <span>{{ sortie.dateLimiteInscription | format_date('full', locale='fr') }}</span>
                 </div>
                 <div>
                     <span>Durée :</span>
@@ -31,36 +31,36 @@
                     <span>{{ sortie.infosSortie }}</span>
                 </div>
             </div>
-            <div class="div-span">
-            <div>
-                <span>Campus :</span>
-                <span>{{ sortie.campus.nom }}</span>
+            <div class="div-span col-md-6">
+                <div>
+                    <span>Campus :</span>
+                    <span>{{ sortie.campus.nom }}</span>
+                </div>
+                <div>
+                    <span>Ville :</span>
+                    <span>{{ sortie.lieu.ville.nom }}</span>
+                </div>
+                <div>
+                    <span>Lieu :</span>
+                    <span>{{ sortie.lieu.nom }}</span>
+                </div>
+                <div>
+                    <span>Rue :</span>
+                    <span>{{ sortie.lieu.rue }}</span>
+                </div>
+                <div>
+                    <span>Rue :</span>
+                    <span>{{ sortie.lieu.ville.codePostal }}</span>
+                </div>
+                <div>
+                    <span>Latitude :</span>
+                    <span>{{ sortie.lieu.latitude }}</span>
+                </div>
+                <div>
+                    <span>Longitude :</span>
+                    <span>{{ sortie.lieu.longitude }}</span>
+                </div>
             </div>
-            <div>
-                <span>Ville :</span>
-                <span>{{ sortie.lieu.ville.nom }}</span>
-            </div>
-            <div>
-                <span>Lieu :</span>
-                <span>{{ sortie.lieu.nom }}</span>
-            </div>
-            <div>
-                <span>Rue :</span>
-                <span>{{ sortie.lieu.rue }}</span>
-            </div>
-            <div>
-                <span>Rue :</span>
-                <span>{{ sortie.lieu.ville.codePostal }}</span>
-            </div>
-            <div>
-                <span>Latitude :</span>
-                <span>{{ sortie.lieu.latitude }}</span>
-            </div>
-            <div>
-                <span>Longitude :</span>
-                <span>{{ sortie.lieu.longitude }}</span>
-            </div>
-        </div>
         </article>
         <div class="btn-sortie">
             {% if sortie.organisateur == app.user %}
