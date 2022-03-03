@@ -4,12 +4,26 @@ namespace App\Security;
 
 use App\Entity\Participant;
 use App\Entity\Sortie;
+use App\Repository\EtatRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class SortieVoter extends Voter
 {
     const EDIT = 'edit';
+
+    /**
+     * @var EtatRepository
+     */
+    private $etatRepository;
+
+    /**
+     * @param EtatRepository $etatRepository
+     */
+    public function __construct(EtatRepository $etatRepository)
+    {
+        $this->etatRepository = $etatRepository;
+    }
 
     /**
      * @inheritDoc
@@ -56,6 +70,8 @@ class SortieVoter extends Voter
 
     private function canEdit(Sortie $sortie, Participant $participant): bool
     {
-        return $participant === $sortie->getOrganisateur();
+        return $participant === $sortie->getOrganisateur()
+            && ($sortie->getEtat() === $this->etatRepository->findOneBy(['libelle' => 'Ouverte'])
+                || $sortie->getEtat() === $this->etatRepository->findOneBy(['libelle' => 'Créée']));
     }
 }
