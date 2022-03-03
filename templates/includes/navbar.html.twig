@@ -11,7 +11,7 @@
             <a class="nav-link" href="{{ path('sortie_list') }}" title="page d'accueil">Accueil</a>
             {% if app.user %}
                 <a class="nav-link" href="{{ path('participant_afficher') }}" title="Profil">Mon profil</a>
-                <a class="nav-link" href="{{ path('app_logout') }}" title="Se déconnecter">Se déconnecter</a>
+                <a class="nav-link" href="{{ path('app_logout') }}" title="Se déconnecter"><i class="fa fa-sign-out"></i> Se déconnecter</a>
             {% else %}
                 <a class="nav-link" href="{{ path('app_login') }}" title="Se connecter">Se connecter</a>
             {% endif %}

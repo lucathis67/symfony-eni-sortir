@@ -246,6 +246,10 @@ a:hover:not(.btn) {
     justify-content: space-evenly;
 }
 
+#formSortie form label {
+    color: var(--secondary-color);
+}
+
 #formSortie form .div-input {
     margin-bottom: 2em;
 }
