@@ -4,19 +4,19 @@
     <section id="afficherSortie">
         <h1>Détail de la sortie</h1>
 
-        <article>
-            <div class="div-span">
+        <article class="row">
+            <div class="div-span col-md-6">
                 <div>
                     <span>Nom de la sortie :</span>
                     <span>{{ sortie.nom }}</span>
                 </div>
                 <div>
                     <span>Date et heure de la sortie :</span>
-                    <span>{{ sortie.dateHeureDebut | date("Y-m-d") }}</span>
+                    <span>{{ sortie.dateHeureDebut | format_datetime('full', 'short', locale='fr') }}</span>
                 </div>
                 <div>
                     <span>Date limite d'inscription :</span>
-                    <span>{{ sortie.dateLimiteInscription | date("Y-m-d") }}</span>
+                    <span>{{ sortie.dateLimiteInscription | format_date('full', locale='fr') }}</span>
                 </div>
                 <div>
                     <span>Durée :</span>
@@ -31,7 +31,9 @@
                     <span>{{ sortie.infosSortie }}</span>
                 </div>
             </div>
-            <div class="div-span">
+
+            <div class="div-span col-md-6">
+
                 <div>
                     <span>Campus :</span>
                     <span>{{ sortie.campus.nom }}</span>

@@ -3,13 +3,13 @@
 {% block title %}Gestion du profil{% endblock %}
 
 {% block body %}
-
     <div>
         <h1>Modification de mon profil</h1>
     </div>
 
-    <div class="image-participant">
+    <div class="image-participant" id="profileModifier">
         <div>
+
             {% if participant.photo %}
                 <img src="{{ asset('uploads/photos/'~participant.photo) }}" alt="{{ participant.pseudo }}">
             {% else %}
@@ -37,6 +37,32 @@
             </a>
         </button>
         {{ form_end(participantForm) }}
+    </div>
+    <div>
+        <h2>Modification de mon profil</h2>
+    </div>
+
+    <div class="profile-container row">
+        <div class="image-participant col-md-4">
+            <div>
+                <img src="{{ asset("img/photo3.png") }}" alt="{{ participant.pseudo }}">
+            </div>
+        </div>
+        <div class="participant-infos col-md-8">
+            {{ form_start(participantForm, {'attr': {'id': 'modifProfil'}}) }}
+            <input type="hidden" name="id"
+                   value="{{ participant.id }}"
+            >
+
+            {{ form_widget(participantForm) }}
+
+
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="reset" class="btn btn-primary">Annuler</button>
+            {{ form_end(participantForm) }}
+        </div>
+    </div>
+
     </div>
 
 {% endblock %}
