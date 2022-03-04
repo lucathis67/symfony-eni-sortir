@@ -47,11 +47,9 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('_inscription/{id}', name: 'inscription')]
-    public function inscription(string $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager)
+    #[Route('inscription/{id}', name: 'inscription')]
+    public function inscription(Sortie $sortie, EntityManagerInterface $entityManager)
     {
-
-        $sortie = $sortieRepository->find($id);
         $dateDebutSortie = $sortie->getDateHeureDebut();
         $dateInscription = getdate();
 
@@ -76,11 +74,9 @@ class SortieController extends AbstractController
         return $this->redirectToRoute("sortie_list");
     }
 
-    #[Route('_desinscription/{id}', name: 'desinscription')]
-    public function desinscription(string $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager)
+    #[Route('desinscription/{id}', name: 'desinscription')]
+    public function desinscription(Sortie $sortie, EntityManagerInterface $entityManager)
     {
-        //dd($id);
-        $sortie = $sortieRepository->find($id);
         $participant = $this->getUser();
         $sortie->removeParticipant($participant);
         $entityManager->persist($sortie);
