@@ -161,7 +161,7 @@ a:hover:not(.btn) {
     margin-bottom: 2rem;
 }
 
-#profileModifier .profile-container img {
+#profileModifier .image-participant img {
     max-width: 100%;
 }
 
@@ -335,6 +335,30 @@ a:hover:not(.btn) {
     margin-left: auto;
     margin-right: auto;
 
+}
+
+/********************************************/
+/**
+ *  Edit password
+ */
+
+#editPassword {
+    background-color: var(--highlight-background-color);
+    padding: 2rem;
+}
+
+#editPassword h2 {
+    font-family: var(--highlight-font);
+    padding-bottom: 2rem;
+    text-align: center;
+}
+
+#editPassword img {
+    max-width: 100%;
+}
+
+#editPassword form label {
+    color: var(--secondary-color);
 }
 
 

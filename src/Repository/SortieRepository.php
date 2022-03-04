@@ -34,7 +34,16 @@ class SortieRepository extends ServiceEntityRepository
             ->select('sortie', 'campus', 'organisateur')
             ->join('sortie.campus', 'campus')
             ->join('sortie.organisateur', 'organisateur')
+            ->join('sortie.etat', 'etat')
+            ->andWhere("etat.libelle != 'Créée'")
         ;
+
+        if ($user) {
+            $queryBuilder = $queryBuilder
+                ->orWhere("etat.libelle = 'Créée' AND sortie.organisateur = :user")
+                ->setParameter('user', $user->getId(), 'uuid');
+            ;
+        }
 
         if (!empty($searchData->contient)) {
             $queryBuilder = $queryBuilder

@@ -157,4 +157,15 @@ class SortieController extends AbstractController
                 'sortie' => $sortie
             ]);
     }
+
+    #[Route('/publier/{id}', name: 'publish')]
+    public function publish(Sortie $sortie): Response
+    {
+        $this->denyAccessUnlessGranted('edit', $sortie);
+        if ($sortie->getEtat()->getLibelle() == 'Créée') {
+            $this->sortieManager->createOrUpdate($sortie, true);
+            $this->addFlash('success', 'Sortie publiée ! ');
+        }
+        return $this->redirectToRoute("sortie_list");
+    }
 }
