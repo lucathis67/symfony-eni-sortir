@@ -62,7 +62,7 @@ $(document).ready(function () {
     function chargerLieux(villeId, f) {
         $.ajax({
             type: 'GET',
-            url: '/symfony/Sortir/public/api/ville/lieux/' + villeId,
+            url: '/sortir/public/api/ville/lieux/' + villeId,
             async: false,
             success: function (data) {
                 lieux = data;
