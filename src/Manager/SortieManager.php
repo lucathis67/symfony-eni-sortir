@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use App\Entity\Sortie;
 use App\Repository\EtatRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class SortieManager
@@ -17,13 +18,14 @@ class SortieManager
     /**
      * @var EtatRepository
      */
-    private  $etatRepository;
+    private $etatRepository;
 
     /**
      * @param EntityManagerInterface $em
      * @param EtatRepository $etatRepository
      */
-    public function __construct(EntityManagerInterface $em, EtatRepository $etatRepository)
+    public function __construct(EntityManagerInterface $em,
+                                EtatRepository $etatRepository)
     {
         $this->em = $em;
         $this->etatRepository = $etatRepository;
@@ -32,16 +34,18 @@ class SortieManager
     public function createOrUpdate(Sortie $sortie, bool $publish)
     {
         $publish
-            ? $sortie->setEtat($this->etatRepository->findOneBy(['libelle'=>'Ouverte']))
-            : $sortie->setEtat($this->etatRepository->findOneBy(['libelle'=>'Créée']));
+            ? $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Ouverte']))
+            : $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Créée']));
         $this->em->persist($sortie);
         $this->em->flush();
     }
 
     public function cancel(Sortie $sortie)
     {
-        $sortie->setEtat($this->etatRepository->findOneBy(['libelle'=>'Annulée']));
+        $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Annulée']));
         $this->em->persist($sortie);
         $this->em->flush();
     }
+
+
 }

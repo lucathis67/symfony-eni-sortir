@@ -87,6 +87,23 @@ a:hover:not(.btn) {
     width: 200px;
 }
 
+
+.flash {
+    padding: 20px;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+}
+
+.flash-success {
+    background-color: darkgreen;
+}
+
+.flash-fail {
+    background-color: darkred;
+}
+
 /********************************************/
 /**
  *  DEBUT Afficher un participant
@@ -293,7 +310,7 @@ a:hover:not(.btn) {
     flex: 1;
     text-align: center;
 }
-
+/********************************************/
 #afficherSortie .div-span span:nth-child(1){
     color: var(--secondary-color);
 }
@@ -303,6 +320,21 @@ a:hover:not(.btn) {
     background-color: var(--primary-background-color);
     border-radius: 0.5em;
     margin-bottom: 1em;
+}
+
+/********************************************/
+/**
+ *  DEBUT Liste des participants
+ */
+#listeParticipants .center {
+
+}
+
+#listeParticipants .table {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 
 

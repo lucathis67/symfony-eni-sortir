@@ -15,8 +15,10 @@ class FileUploader
         $this->targetDirectory = $targetDirectory;
         $this->slugger = $slugger;
     }
+
     public function upload(UploadedFile $file)
     {
+        //dd($file);
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();

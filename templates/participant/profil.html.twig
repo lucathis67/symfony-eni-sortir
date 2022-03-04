@@ -3,32 +3,66 @@
 {% block title %}Gestion du profil{% endblock %}
 
 {% block body %}
+    <div>
+        <h1>Modification de mon profil</h1>
+    </div>
 
-    <div id="profileModifier">
+    <div class="image-participant" id="profileModifier">
         <div>
-            <h2>Modification de mon profil</h2>
+
+            {% if participant.photo %}
+                <img src="{{ asset('uploads/photos/'~participant.photo) }}" alt="{{ participant.pseudo }}">
+            {% else %}
+                <img src="{{ asset("img/user-default.png") }}" alt="{{ participant.pseudo }}">
+            {% endif %}
         </div>
+    </div>
+    <div class="participant-infos">
+        {{ form_start(participantForm, {'attr': {'id': 'modifProfil'}}) }}
+        <input type="hidden" name="id"
+               value="{{ participant.id }}"
+        >
+        {{ form_widget(participantForm) }}
 
-        <div class="profile-container row">
-            <div class="image-participant col-md-4">
-                <div>
-                    <img src="{{ asset("img/photo3.png") }}" alt="{{ participant.pseudo }}">
-                </div>
-            </div>
-            <div class="participant-infos col-md-8">
-                {{ form_start(participantForm, {'attr': {'id': 'modifProfil'}}) }}
-                <input type="hidden" name="id"
-                       value="{{ participant.id }}"
-                >
+        <button type="submit" class="btn">Enregistrer</button>
 
-                {{ form_widget(participantForm) }}
+        <button type="button" class="btn">
+            <a href="{{ path('participant_afficher',{'id': app.user.id }) }}">
+                Annuler
+            </a>
+        </button>
+        <button type="button" class="btn">
+            <a href="{{ path('participant_editPassword') }}">
+                Modifier le mot de passe
+            </a>
+        </button>
+        {{ form_end(participantForm) }}
+    </div>
+    <div>
+        <h2>Modification de mon profil</h2>
+    </div>
 
-
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
-                <button type="reset" class="btn btn-primary">Annuler</button>
-                {{ form_end(participantForm) }}
+    <div class="profile-container row">
+        <div class="image-participant col-md-4">
+            <div>
+                <img src="{{ asset("img/photo3.png") }}" alt="{{ participant.pseudo }}">
             </div>
         </div>
+        <div class="participant-infos col-md-8">
+            {{ form_start(participantForm, {'attr': {'id': 'modifProfil'}}) }}
+            <input type="hidden" name="id"
+                   value="{{ participant.id }}"
+            >
+
+            {{ form_widget(participantForm) }}
+
+
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="reset" class="btn btn-primary">Annuler</button>
+            {{ form_end(participantForm) }}
+        </div>
+    </div>
+
     </div>
 
 {% endblock %}

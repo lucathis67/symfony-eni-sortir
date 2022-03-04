@@ -11,6 +11,7 @@ use App\Form\SortieType;
 use App\Manager\SortieManager;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,35 +47,47 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/', name: 'inscription')]
-    public function inscription(uuid $id, SortieRepository $sortieRepository, EntityManager $entityManager)
+    #[Route('_inscription/{id}', name: 'inscription')]
+    public function inscription(string $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager)
     {
-        $sortie = $sortieRepository->find($id);
 
+        $sortie = $sortieRepository->find($id);
         $dateDebutSortie = $sortie->getDateHeureDebut();
         $dateInscription = getdate();
 
-        if ($dateDebutSortie > $dateInscription &&
-            $sortie->getEtat()->getLibelle() == 'Ouverte' &&
-            $sortie->getParticipants()->count() < $sortie->getNbInscriptionsMax()) {
-
+        if($sortie->getEtat()->getLibelle() != 'Ouverte')
+        {
+            $this->addFlash('fail', 'La sortie est fermée!!');
+        }
+        elseif ($sortie->getParticipants()->count() >= $sortie->getNbInscriptionsMax())
+        {
+            $this->addFlash('fail', 'Le nombre de participant est au maximum');
+        }
+        elseif ($dateDebutSortie < $dateInscription )
+        {
+            $this->addFlash('fail', 'La date d\'inscription est supérieur à la date de début de l\evenement.');
+        }else{
             $participant = $this->getUser();
             $sortie->addParticipant($participant);
             $entityManager->persist($sortie);
             $entityManager->flush();
-            return $this->redirectToRoute("sortie_list");
+            $this->addFlash('success', 'Inscription à la sortie effectuée!!');
         }
+        return $this->redirectToRoute("sortie_list");
     }
 
-    public function desinscription(int $id, SortieRepository $sortieRepository, EntityManager $entityManager)
+    #[Route('_desinscription/{id}', name: 'desinscription')]
+    public function desinscription(string $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager)
     {
+        //dd($id);
         $sortie = $sortieRepository->find($id);
         $participant = $this->getUser();
         $sortie->removeParticipant($participant);
         $entityManager->persist($sortie);
         $entityManager->flush();
-
+        return $this->redirectToRoute("sortie_list");
     }
+
 
     #[Route('/ajouter', name: 'create')]
     public function create(Request $request): Response

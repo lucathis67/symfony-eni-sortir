@@ -31,7 +31,9 @@
                     <span>{{ sortie.infosSortie }}</span>
                 </div>
             </div>
+
             <div class="div-span col-md-6">
+
                 <div>
                     <span>Campus :</span>
                     <span>{{ sortie.campus.nom }}</span>
@@ -64,9 +66,36 @@
         </article>
         <div class="btn-sortie">
             {% if sortie.organisateur == app.user %}
-                <div><a href="{{ path('sortie_update', {'id': sortie.id }) }}" class="btn btn-primary">Modifier</a></div>
+                <div><a href="{{ path('sortie_update', {'id': sortie.id }) }}" class="btn btn-primary">Modifier</a>
+                </div>
             {% endif %}
         </div>
+    </section>
+
+    <section id="listeParticipants">
+        <h3 class="text-center">Liste des participants</h3>
+        <div class="row">
+            <table id="tableParticipants"
+                   class="table">
+                <thead class="text-center">
+                <tr>
+                    <th>Pseudo</th>
+                    <th>Nom</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if sortie.participants is not empty %}
+                    {% for participant in sortie.participants %}
+                        <tr class="text-center">
+                            <td><a href="{{ path('participant_afficher', {'id': participant.id}) }}">{{ participant.pseudo }}</a></td>
+                            <td>{{ participant.prenom }} {{ participant.nom }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
     </section>
 {% endblock %}
 
