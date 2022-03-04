@@ -22,7 +22,6 @@
                     <a href="{{ path('sortie_desinscription',{'id':sortie.id}) }}">Se désister</a>
                 {% endif %}
             {% else %}
-
                 {% if sortie.dateLimiteInscription > date() %}
                     <a href="{{ path('sortie_inscription') }}">S'inscrire</a>
                 {% endif %}
