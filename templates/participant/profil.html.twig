@@ -3,36 +3,40 @@
 {% block title %}Gestion du profil{% endblock %}
 
 {% block body %}
-    <form action="{{ path('uploadFile') }}" method="post" enctype="multipart/form-data">
+
+    <div>
+        <h1>Modification de mon profil</h1>
+    </div>
+
+    <div class="image-participant">
         <div>
-            <h1>Modification de mon profil</h1>
+            {% if participant.photo %}
+                <img src="{{ asset('uploads/photos/'~participant.photo) }}" alt="{{ participant.pseudo }}">
+            {% else %}
+                <img src="{{ asset("img/user-default.png") }}" alt="{{ participant.pseudo }}">
+            {% endif %}
         </div>
+    </div>
+    <div class="participant-infos">
+        {{ form_start(participantForm, {'attr': {'id': 'modifProfil'}}) }}
+        <input type="hidden" name="id"
+               value="{{ participant.id }}"
+        >
+        {{ form_widget(participantForm) }}
 
-        <div class="image-participant">
-            <div>
-                <img src="{{ asset("img/photo3.png") }}" alt="{{ participant.pseudo }}">
-            </div>
-        </div>
-        <div class="participant-infos">
-            {{ form_start(participantForm, {'attr': {'id': 'modifProfil'}}) }}
-            <input type="hidden" name="id"
-                   value="{{ participant.id }}"
-            >
+        <button type="submit" class="btn">Enregistrer</button>
 
-            {{ form_widget(participantForm) }}
+        <button type="button" class="btn">
+            <a href="{{ path('participant_afficher',{'id': app.user.id }) }}">
+                Annuler
+            </a>
+        </button>
+        <button type="button" class="btn">
+            <a href="{{ path('participant_editPassword') }}">
+                Modifier le mot de passe
+            </a>
+        </button>
+        {{ form_end(participantForm) }}
+    </div>
 
-
-            <input type="hidden" name="token" value="{{ csrf_token('upload') }}"/>
-
-            <div>
-                <label for="myfile">File to upload:</label>
-                <input type="file" name="myfile" id="myfile">
-            </div>
-
-
-            <button type="submit" class="btn">Enregistrer</button>
-            <button type="reset" class="btn">Annuler</button>
-            {{ form_end(participantForm) }}
-        </div>
-    </form>
 {% endblock %}

@@ -4,7 +4,11 @@
     <h1>{{ participant.pseudo }}</h1>
     <div class="image-participant">
         <div>
-            <img src="{{ asset("img/photo3.png") }}" alt="{{ participant.pseudo }}">
+            {% if participant.photo  %}
+                <img src="{{ asset('uploads/photos/'~participant.photo) }}" alt="{{ participant.pseudo }}">
+            {% else %}
+                <img src="{{ asset('img/user-default.png') }}" alt="{{ participant.pseudo }}">
+            {% endif %}
         </div>
     </div>
     <div>
@@ -23,12 +27,15 @@
         <label for="">Campus : {{ participant.campus.nom }}</label>
     </div>
 
-    <a href="{{ path("participant_modifier") }}">
-        <button type="button" class="btn">Modifier</button>
+    {% if app.user.id == participant.id %}
+        <a href="{{ path("participant_modifier") }}">
+            <button type="button" class="btn">Modifier</button>
+        </a>
+    {% endif %}
+
+    <a href="{{ path("sortie_list") }}">
+        <button type="button" class="btn">Retour</button>
     </a>
-
-    <button type="button" class="btn">Retour</button>
-
 
 {% endblock %}
 

@@ -32,41 +32,68 @@
                 </div>
             </div>
             <div class="div-span">
-            <div>
-                <span>Campus :</span>
-                <span>{{ sortie.campus.nom }}</span>
+                <div>
+                    <span>Campus :</span>
+                    <span>{{ sortie.campus.nom }}</span>
+                </div>
+                <div>
+                    <span>Ville :</span>
+                    <span>{{ sortie.lieu.ville.nom }}</span>
+                </div>
+                <div>
+                    <span>Lieu :</span>
+                    <span>{{ sortie.lieu.nom }}</span>
+                </div>
+                <div>
+                    <span>Rue :</span>
+                    <span>{{ sortie.lieu.rue }}</span>
+                </div>
+                <div>
+                    <span>Rue :</span>
+                    <span>{{ sortie.lieu.ville.codePostal }}</span>
+                </div>
+                <div>
+                    <span>Latitude :</span>
+                    <span>{{ sortie.lieu.latitude }}</span>
+                </div>
+                <div>
+                    <span>Longitude :</span>
+                    <span>{{ sortie.lieu.longitude }}</span>
+                </div>
             </div>
-            <div>
-                <span>Ville :</span>
-                <span>{{ sortie.lieu.ville.nom }}</span>
-            </div>
-            <div>
-                <span>Lieu :</span>
-                <span>{{ sortie.lieu.nom }}</span>
-            </div>
-            <div>
-                <span>Rue :</span>
-                <span>{{ sortie.lieu.rue }}</span>
-            </div>
-            <div>
-                <span>Rue :</span>
-                <span>{{ sortie.lieu.ville.codePostal }}</span>
-            </div>
-            <div>
-                <span>Latitude :</span>
-                <span>{{ sortie.lieu.latitude }}</span>
-            </div>
-            <div>
-                <span>Longitude :</span>
-                <span>{{ sortie.lieu.longitude }}</span>
-            </div>
-        </div>
         </article>
         <div class="btn-sortie">
             {% if sortie.organisateur == app.user %}
-                <div><a href="{{ path('sortie_update', {'id': sortie.id }) }}" class="btn btn-primary">Modifier</a></div>
+                <div><a href="{{ path('sortie_update', {'id': sortie.id }) }}" class="btn btn-primary">Modifier</a>
+                </div>
             {% endif %}
         </div>
+    </section>
+
+    <section id="listeParticipants">
+        <h3 class="text-center">Liste des participants</h3>
+        <div class="row">
+            <table id="tableParticipants"
+                   class="table">
+                <thead class="text-center">
+                <tr>
+                    <th>Pseudo</th>
+                    <th>Nom</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if sortie.participants is not empty %}
+                    {% for participant in sortie.participants %}
+                        <tr class="text-center">
+                            <td><a href="{{ path('participant_afficher', {'id': participant.id}) }}">{{ participant.pseudo }}</a></td>
+                            <td>{{ participant.prenom }} {{ participant.nom }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
     </section>
 {% endblock %}
 
