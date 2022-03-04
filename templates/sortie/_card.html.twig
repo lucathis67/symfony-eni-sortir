@@ -9,7 +9,7 @@
             {% for participant in sortie.participants %}
                 {% if participant.id == app.user.id %}<a>Se Désister</a>{% endif %}
             {% else %}
-                {% if sortie.dateLimiteInscription > date() %}
+                {% if sortie.dateLimiteInscription > date() and app.user and sortie.participants.count < sortie.nbInscriptionsMax %}
                     <a href="{{ path('sortie_inscription') }}">S'inscrire</a>
                 {% endif %}
             {% endfor %}
